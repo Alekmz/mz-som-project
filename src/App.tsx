@@ -1,14 +1,10 @@
-import { useState } from 'react'
-
-import './App.css'
 import Router from './router'
 
 function App() {
-
   return (
-    <>
+    <div className='flex w-screen min-h-screen'>
       <Router/>
-    </>
+    </div>
   )
 }
 
