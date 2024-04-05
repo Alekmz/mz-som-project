@@ -1,8 +1,10 @@
 import BudgetRequest from "../pages/budget request";
+import MainScreen from "../pages/main-screen";
 
 
 export type Module =
   | 'budget-request'
+  | 'main-screen';
 
 type Route = {
   path: string;
@@ -25,5 +27,10 @@ export const ROUTES = {
     path: '/budget-request',
     name: 'Solicitação de Orçamentos',
     element: <BudgetRequest />,
+  },
+  'main-screen': {
+    path: '/main-screen',
+    name: 'Dashboard',
+    element: <MainScreen />,
   },
 } as Routes;
