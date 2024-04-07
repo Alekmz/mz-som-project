@@ -1,11 +1,13 @@
-import Router from './router'
+import { Toaster } from "./components/ui/toaster";
+import Router from "./router";
 
 function App() {
   return (
-    <div className='flex w-screen min-h-screen'>
-      <Router/>
-    </div>
-  )
+    <>
+      <Router />
+      <Toaster />
+    </>
+  );
 }
 
-export default App
+export default App;
