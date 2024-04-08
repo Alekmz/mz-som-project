@@ -23,6 +23,10 @@ const Router = () => {
         path={ROUTES['main-screen'].path}
         element={ROUTES['main-screen'].element}
       />
+      <Route
+        path={ROUTES['create-budget'].path + '/:id'}
+        element={ROUTES['create-budget'].element}
+      />
       <Route path="*" element={<Navigate to={ROUTES['budget-request'].path} />} />
     </Routes>
 
