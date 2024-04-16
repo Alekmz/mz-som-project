@@ -27,7 +27,7 @@
   },
   "include": [
     "src"
-  ],
+, "backend/server", "backend/index.ts", "dist/index.ts", "backend/controllers", "backend/routes.clientes", "backend/index.server.ts"  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

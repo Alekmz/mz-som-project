@@ -123,24 +123,6 @@ const BudgetRequest = () => {
             <div className="flex flex-col items-start justify-start w-full max-w-[500px] text-start">
               <FormField
                 control={form.control}
-                name="nome_empresa"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                      Nome da empresa
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col items-start justify-start w-full max-w-[500px] text-start">
-              <FormField
-                control={form.control}
                 name="responsavel"
                 render={({ field }) => (
                   <FormItem className="w-full">
