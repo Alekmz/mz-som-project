@@ -30,7 +30,10 @@ class BudgetController {
     }
   }
 
-  async show (request: Request, response: Response) {
+  async show () {}
+  async store (request: Request, response: Response) {
+    console.log('body', request.body)
+
     const {
       responsavel,
       cnpj_cpf,
@@ -41,10 +44,20 @@ class BudgetController {
       email,
       descricao
     } = request.body
-  }
-
-  store () {
-    // Create
+    try {
+      await budgetRepository.create({
+        responsavel,
+        cnpj_cpf,
+        cidade,
+        tipo_servico,
+        data_evento,
+        contato,
+        email,
+        descricao
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   update () {
