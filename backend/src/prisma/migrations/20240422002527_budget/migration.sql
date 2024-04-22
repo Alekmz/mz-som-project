@@ -2,12 +2,13 @@
 CREATE TABLE "Budget" (
     "id" SERIAL NOT NULL,
     "responsavel" TEXT NOT NULL,
-    "cnpj_cpf" TEXT NOT NULL,
-    "cidade" TEXT NOT NULL,
-    "tipo_servico" TEXT[],
+    "cpf_cnpj" TEXT,
+    "local_evento" TEXT NOT NULL,
+    "servicos" TEXT[],
     "data_evento" TIMESTAMP(3) NOT NULL,
-    "contato" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
+    "telefone" TEXT NOT NULL,
+    "tipo_evento" TEXT,
+    "email" TEXT,
     "descricao" TEXT NOT NULL,
     "data_cadastro" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

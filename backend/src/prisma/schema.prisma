@@ -1,27 +1,22 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url= env("DATABASE_URL")
+  url      = "postgresql://postgres:admin@localhost:5432/mz?schema=public"
 }
 
 model Budget {
-    id              Int       @id @default(autoincrement())
-    responsavel     String
-    cnpj_cpf        String
-    cidade          String
-    tipo_servico    String[]
-    data_evento     DateTime
-    contato         String
-    email           String
-    descricao       String
-    data_cadastro   DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  responsavel   String
+  cpf_cnpj      String
+  local_evento  String
+  servicos  String[]
+  data_evento   DateTime
+  telefone       String
+  tipo_evento   String?
+  email         String?
+  descricao     String
+  data_cadastro DateTime @default(now())
 }

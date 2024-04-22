@@ -37,10 +37,12 @@ import {
   DialogTitle,
 } from "../../components/ui/dialog";
 import { FaWhatsapp } from "react-icons/fa";
+import { useCreateBudget } from "./data/create-budget";
 
 const BudgetRequest = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const { toast } = useToast();
+  const { mutateAsync } = useCreateBudget();
 
   const form = useForm();
   function formatarTelefone(numero: any) {
@@ -65,7 +67,6 @@ const BudgetRequest = () => {
   ];
 
   const onSubmit = (data: any) => {
-    console.log("data form", data);
 
     if (!data?.data_evento) {
       toast({
@@ -74,7 +75,22 @@ const BudgetRequest = () => {
         variant: "destructive",
       });
     } else {
-      setOpenDialog(true);
+      const {servicos, ...payload} = data
+      const formattedData = {
+        servicos: servicos.map((servico)=> servico.value),
+        ...payload
+      }
+      mutateAsync(formattedData)
+        .then(() => {
+          setOpenDialog(true);
+        })
+        .catch((error) => {
+          toast({
+            title: "Erro",
+            description: error.message,
+            variant: "destructive",
+          });
+        });
     }
   };
 
@@ -208,7 +224,6 @@ const BudgetRequest = () => {
               />
             </div>
             <div className="flex flex-col items-start justify-start w-full max-w-[500px] text-start">
-
               <FormField
                 control={form.control}
                 name="tipo_evento"
@@ -267,7 +282,12 @@ const BudgetRequest = () => {
                           <span className="text-red-500">*</span>
                         </FormLabel>
                         <FormControl>
-                          <Input type="text" className="w-full border border-[#2190BF]" {...field} required/>
+                          <Input
+                            type="text"
+                            className="w-full border border-[#2190BF]"
+                            {...field}
+                            required
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

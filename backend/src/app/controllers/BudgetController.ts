@@ -1,30 +1,13 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { budgetRepository } from '../../repositories/BudgetsRespository'
 import { Request, Response } from 'express'
-// export const create = async (req: Request, res: Response) => {
-//   try {
-//     const cliente = await createCliente(req.body)
-//     res.status(200).send(cliente)
-//   } catch (e) {
-//     res.status(400).send(e)
-//   }
-// }
-
-// export const get = async (req: Request, res: Response) => {
-//   try {
-//     const clientes = await getAll()
-//     res.status(200).send(clientes)
-//   } catch (e) {
-//     console.info(e)
-//     res.status(400).send(e)
-//   }
-// }
 
 class BudgetController {
-  async index () {
+  async index (_: Request, response: Response) {
     try {
       const budgets = await budgetRepository.findAll()
-      return budgets
+      if (budgets.length === 0) return 'Sem dados!'
+      return response.status(200).json(budgets)
     } catch (e) {
       console.log(e)
     }
@@ -36,25 +19,38 @@ class BudgetController {
 
     const {
       responsavel,
-      cnpj_cpf,
+      cpf_cnpj,
       cidade,
-      tipo_servico,
       data_evento,
-      contato,
+      local_evento,
+      tipo_evento,
+      servicos,
+      telefone,
       email,
       descricao
     } = request.body
     try {
-      await budgetRepository.create({
-        responsavel,
-        cnpj_cpf,
-        cidade,
-        tipo_servico,
-        data_evento,
-        contato,
-        email,
-        descricao
-      })
+      await budgetRepository
+        .create({
+          responsavel,
+          cpf_cnpj,
+          cidade,
+          data_evento,
+          email,
+          local_evento,
+          tipo_evento,
+          servicos,
+          telefone,
+          descricao
+        })
+        .then(() => {
+          response
+            .status(200)
+            .json({ message: 'Orçamento criado com sucesso!' })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } catch (error) {
       console.log(error)
     }

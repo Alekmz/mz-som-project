@@ -1,11 +1,16 @@
 import { Toaster } from "./components/ui/toaster";
 import Router from "./router";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 function App() {
   return (
     <>
-      <Router />
-      <Toaster />
+      <QueryClientProvider client={queryClient}>
+        <Router />
+        <Toaster />
+      </QueryClientProvider>
     </>
   );
 }

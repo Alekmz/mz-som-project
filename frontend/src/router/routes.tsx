@@ -1,4 +1,4 @@
-import BudgetRequest from "../pages/budget request";
+import BudgetRequest from "../pages/BudgetForm";
 import CreateBudget from "../pages/create-budget";
 import MainScreen from "../pages/main-screen";
 export type Module =

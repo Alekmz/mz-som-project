@@ -3,20 +3,16 @@ import prisma from '../server/prisma'
 
 interface Budget {
   responsavel: string
-  cnpj_cpf: string
+  cpf_cnpj: string
   cidade: string
-  tipo_servico: string[]
+  servicos: string[]
+  local_evento: string
   data_evento: Date
-  contato: string
-  email: string
+  telefone: string
+  tipo_evento?: string
+  email?: string
   descricao: string
 }
-// export const createCliente = async (data) => {
-//   const cliente = await prisma.budget.create({
-//     data
-//   })
-//   return cliente
-// }
 
 export const getAll = async () => {
   const clientes = await prisma.budget.findMany({})
@@ -25,13 +21,23 @@ export const getAll = async () => {
 
 class BugdetRepository {
   async findAll () {
-    const budgets = await prisma.budget.findMany({})
+    const budgets = await prisma.budget.findMany()
     return budgets
   }
 
   async create (data: Budget) {
     const budget = await prisma.budget.create({
-      data
+      data: {
+        data_evento: data.data_evento,
+        responsavel: data.responsavel,
+        cpf_cnpj: data.cpf_cnpj,
+        local_evento: data.local_evento,
+        tipo_evento: data.tipo_evento,
+        servicos: data.servicos,
+        telefone: data.telefone,
+        email: data.email,
+        descricao: data.descricao
+      }
     })
     return budget
   }
