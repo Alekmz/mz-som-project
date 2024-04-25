@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  frontend:
+    # Usa o Dockerfile no diretório atual para construir a imagem
+    build: .
+    # Mapeia a porta 3000 do contêiner para a porta 3000 do host
+    ports:
+      - "3000:3000"
+    # Define o diretório de trabalho dentro do contêiner
+    working_dir: /app
+    # Reinicie o serviço se ele falhar
+    restart: always

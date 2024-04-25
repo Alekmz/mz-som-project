@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: meu-postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  api:
+    build: .
+    container_name: minha-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://usuario:senha@postgres:5432/nome-do-banco

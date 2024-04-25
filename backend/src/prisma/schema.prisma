@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:admin@localhost:5432/mz?schema=public"
+  url      = "postgresql://postgres:postgres@postgres:5432/postgres?schema=public"
 }
 
 model Budget {

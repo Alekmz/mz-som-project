@@ -415,7 +415,7 @@ const BudgetRequest = () => {
           </form>
         </Form>
       </div>
-      <footer className="bg-[#2190BF] w-full h-[4.7rem]  bottom-0 justify-center items-center flex dark:bg-gray-800 text-center">
+      <footer className="bg-[#2190BF] w-full h-[7rem]  bottom-0 justify-center items-center flex dark:bg-gray-800 text-center">
         <span className="text-white">© 2024, All rights reserved</span>
       </footer>
     </div>
