@@ -38,6 +38,7 @@ import {
 } from "../../components/ui/dialog";
 import { FaWhatsapp } from "react-icons/fa";
 import { useCreateBudget } from "./data/create-budget";
+import Footer from "../../components/footer/footer";
 
 const BudgetRequest = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -77,7 +78,7 @@ const BudgetRequest = () => {
     } else {
       const {servicos, ...payload} = data
       const formattedData = {
-        servicos: servicos.map((servico)=> servico.value),
+        servicos: servicos.map((servico: { value: any; })=> servico.value),
         ...payload
       }
       mutateAsync(formattedData)
@@ -415,9 +416,7 @@ const BudgetRequest = () => {
           </form>
         </Form>
       </div>
-      <footer className="bg-[#2190BF] w-full h-[7rem]  bottom-0 justify-center items-center flex dark:bg-gray-800 text-center">
-        <span className="text-white">© 2024, All rights reserved</span>
-      </footer>
+      <Footer />
     </div>
   );
 };

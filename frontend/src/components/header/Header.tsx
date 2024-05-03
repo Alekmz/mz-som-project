@@ -8,7 +8,7 @@ function Header() {
         const now = new Date();
         const formattedDate = format(now, "iiii, dd MMMM 'de' yyyy", { locale: ptBR });
     return (
-            <div className="fixed  hidden md:flex top-0 w-full bg-white text-white border-b border-[#E7E9EF] p-6 px-9 z-50 justify-between items-center">
+            <div className="fixed  hidden md:flex top-0 w-full bg-white text-white border-b border-[#E7E9EF] p-6 px-9 z-40 justify-between items-center">
                 <div className="flex space-x-20 items-center ">
                     <div><a href="/main-screen"><img src={LogoMz} className="rounded-t-lg w-[110px] h-[29px]" alt="Logo da MZ Som" /></a></div>
                     <div className='flex flex-col'>

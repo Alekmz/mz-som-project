@@ -10,19 +10,19 @@ const Sidebar = () => {
     return (
         <>
             {/* Botão do menu de hambúrguer */}
-            <button onClick={toggleSidebar} className="fixed top-10 left-4 block md:hidden z-50 focus:outline-none">
+            <button onClick={toggleSidebar} className="fixed top-10 left-4 block md:hidden z-10 focus:outline-none">
                 <svg className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
             {/* Barra lateral */}
-            <aside id="logo-sidebar" className={`fixed top-20 left-0 z-40 w-56 h-screen pt-14 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white border-r border-[#E7E9EF] md:translate-x-0 dark:bg-gray-800 dark:border-gray-700`} aria-label="Sidebar">
+            <aside id="logo-sidebar" className={`fixed top-20 left-0 z-30 w-56 h-screen pt-14 transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} bg-white border-r border-[#E7E9EF] md:translate-x-0 dark:bg-gray-800 dark:border-gray-700`} aria-label="Sidebar">
                 <div className="h-full px-4 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     {/* Conteúdo da barra lateral */}
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <a href="#" className="flex items-center p-2 pb-10 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:bg-gray-700 group">
+                            <a href="/create-budget" className="flex items-center p-2 pb-10 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:bg-gray-700 group">
                                 <span className="ms-3 italic">Novo <br></br> Orçamento</span>
                                 <svg className="h-7 w-7 pl-1 text-[#2190BF] transition duration-75  dark:text-[#2190BF] dark:group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
                             </a>

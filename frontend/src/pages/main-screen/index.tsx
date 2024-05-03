@@ -3,6 +3,7 @@ import Header from "../../components/header/Header";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Footer from "../../components/footer/footer";
 
 
 interface Cliente {
@@ -34,10 +35,10 @@ const MainScreen = () => {
 
 
     return (
-        <div className="bg-white w-full h-screen">
+        <div className="bg-white w-full h-screen flex flex-col">
             <Header />
             <Sidebar />
-            <div className="p-4 md:ml-56">
+            <div className="p-4 md:ml-56 flex-grow">
                 <div className=" p-4 dark:border-gray-700 mt-20 md:mt-24 sm:mt-28">
                     {/* Cabeçalho */}
                     <div className="mb-4">
@@ -112,7 +113,9 @@ const MainScreen = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
+        
     );
 }
 export default MainScreen;
