@@ -4,7 +4,7 @@ import axios from "axios"
 export const useCreateBudget = () => {
   const mutation = useMutation({
     mutationFn: (budget) => {
-      return axios.post('http://3.139.100.195:3000/budget', budget)
+      return axios.post('http://54.221.50.239:3000/budget', budget)
     },
   })
 
