@@ -4,13 +4,13 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@postgres:5432/postgres?schema=public"
+  url      = "postgresql://postgres:admin@localhost:5432/mz?schema=public"
 }
 
 model Budget {
   id            Int      @id @default(autoincrement())
   responsavel   String
-  cpf_cnpj      String
+  cpf_cnpj      String?
   local_evento  String
   servicos  String[]
   data_evento   DateTime

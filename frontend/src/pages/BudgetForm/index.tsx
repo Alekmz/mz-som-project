@@ -68,7 +68,6 @@ const BudgetRequest = () => {
   ];
 
   const onSubmit = (data: any) => {
-
     if (!data?.data_evento) {
       toast({
         title: "Você precisa inserir uma data",
@@ -76,11 +75,16 @@ const BudgetRequest = () => {
         variant: "destructive",
       });
     } else {
-      const {servicos, ...payload} = data
+      const { servicos, tipo_evento, outro_tipo_evento, ...payload } = data;
+      console.log(data);
       const formattedData = {
-        servicos: servicos.map((servico: { value: any; })=> servico.value),
-        ...payload
-      }
+        servicos: servicos.map((servico: { value: any }) => servico.value),
+        tipo_evento:
+          data.tipo_evento === "outro"
+            ? data.outro_tipo_evento
+            : data.tipo_evento,
+        ...payload,
+      };
       mutateAsync(formattedData)
         .then(() => {
           setOpenDialog(true);
@@ -243,25 +247,25 @@ const BudgetRequest = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="casamento">Casamento</SelectItem>
-                        <SelectItem value="formatura">Formatura</SelectItem>
-                        <SelectItem value="festa_aniversario">
+                        <SelectItem value="Casamento">Casamento</SelectItem>
+                        <SelectItem value="Formatura">Formatura</SelectItem>
+                        <SelectItem value="Festa de aniversário">
                           Festa de aniversário
                         </SelectItem>
-                        <SelectItem value="evento_corporativo">
-                          Evento corporativos
+                        <SelectItem value="Evento corporativo">
+                          Evento corporativo
                         </SelectItem>
                         <SelectItem value="show">Show</SelectItem>
-                        <SelectItem value="festival_musica">
+                        <SelectItem value="Festival de música">
                           Festival de música
                         </SelectItem>
-                        <SelectItem value="evento_esportivo">
+                        <SelectItem value="Evento esportivo">
                           Evento esportivo
                         </SelectItem>
-                        <SelectItem value="cerimonia_religiosa">
+                        <SelectItem value="Cerimônia religiosa">
                           Cerimônia religiosa
                         </SelectItem>
-                        <SelectItem value="feira_exposicao">
+                        <SelectItem value="Feira e exposição">
                           Feira e exposição
                         </SelectItem>
                         <SelectItem value="outro">Outro</SelectItem>

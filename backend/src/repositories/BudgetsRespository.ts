@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import prisma from '../server/prisma'
-
 interface Budget {
   responsavel: string
-  cpf_cnpj: string
+  cpf_cnpj?: string
   cidade: string
   servicos: string[]
   local_evento: string
@@ -37,6 +36,15 @@ class BugdetRepository {
         telefone: data.telefone,
         email: data.email,
         descricao: data.descricao
+      }
+    })
+    return budget
+  }
+
+  async findById (id: number) {
+    const budget = await prisma.budget.findUnique({
+      where: {
+        id
       }
     })
     return budget

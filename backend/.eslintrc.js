@@ -13,5 +13,6 @@ module.exports = {
     "rules": {
       "@typescript-eslint/consistent-type-imports": "off",
       "no-multi-spaces": "off",
+      "naming-convention": "off"
     }
 }

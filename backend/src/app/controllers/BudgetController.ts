@@ -1,3 +1,5 @@
+/* eslint-disable no-extra-boolean-cast */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { budgetRepository } from '../../repositories/BudgetsRespository'
 import { Request, Response } from 'express'
@@ -13,10 +15,15 @@ class BudgetController {
     }
   }
 
-  async show () {}
-  async store (request: Request, response: Response) {
-    console.log('body', request.body)
+  async show (req: Request, res: Response) {
+    console.log(req.params.id)
+    const budget = await budgetRepository.findById(Number(req.params.id))
+    console.log(budget)
+    if (!budget) return res.status(404).json({ error: 'Orçamento não encontrado!' })
+    return res.status(200).json(budget)
+  }
 
+  async store (request: Request, response: Response) {
     const {
       responsavel,
       cpf_cnpj,

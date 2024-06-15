@@ -7,5 +7,6 @@ const routes = Router()
 
 routes.post('/budget', budgetController.store)
 routes.get('/budget', budgetController.index)
+routes.get('/budget/:id', budgetController.show)
 
 export default routes

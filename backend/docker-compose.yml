@@ -11,12 +11,12 @@ services:
     ports:
       - "5432:5432"
 
-  api:
-    build: .
-    container_name: minha-api
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
-    environment:
-      DATABASE_URL: postgres://usuario:senha@postgres:5432/nome-do-banco
+  # api:
+  #   build: .
+  #   container_name: minha-api
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_URL: postgres://usuario:senha@postgres:5432/nome-do-banco
