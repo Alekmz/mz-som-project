@@ -5,8 +5,8 @@ import { budgetController } from './app/controllers/BudgetController'
 
 const routes = Router()
 
-routes.post('/budget', budgetController.store)
-routes.get('/budget', budgetController.index)
-routes.get('/budget/:id', budgetController.show)
+routes.post('/budget-request', budgetController.store)
+routes.get('/budget-request', budgetController.index)
+routes.get('/budget-request/:id', budgetController.show)
 
 export default routes

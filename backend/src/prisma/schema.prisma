@@ -7,7 +7,7 @@ datasource db {
   url      = "postgresql://postgres:admin@localhost:5432/mz?schema=public"
 }
 
-model Budget {
+model budget_request {
   id            Int      @id @default(autoincrement())
   responsavel   String
   cpf_cnpj      String?
@@ -20,3 +20,4 @@ model Budget {
   descricao     String
   data_cadastro DateTime @default(now())
 }
+

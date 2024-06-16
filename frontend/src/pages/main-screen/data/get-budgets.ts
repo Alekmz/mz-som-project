@@ -20,7 +20,7 @@ export const useGetBudgets = () => {
     queryKey: ["todos"],
     queryFn: () =>
       axios
-        .get("http://localhost:3000/budget")
+        .get("http://localhost:3000/budget-request")
         .then((res) => res.data as Budget),
   });
   return {

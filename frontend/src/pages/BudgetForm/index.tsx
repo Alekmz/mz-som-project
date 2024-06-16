@@ -414,7 +414,7 @@ const BudgetRequest = () => {
               />
             </div>
 
-            <Button className="bg-[#2190BF] text-white font-nunito font-semibold text-lg w-full max-w-[450px]">
+            <Button className="bg-[#2190BF] text-white font-nunito font-semibold text-lg w-full max-w-[450px] mb-5">
               Solicitar
             </Button>
           </form>

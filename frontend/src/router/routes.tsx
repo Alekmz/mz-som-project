@@ -34,7 +34,7 @@ export const ROUTES = {
     element: <MainScreen />,
   },
   'create-budget': {
-    path: '/create-budget',
+    path: '/create-budget/:id',
     name: 'Criar Orçamento',
     element: <CreateBudget />,
   }

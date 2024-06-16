@@ -110,7 +110,7 @@ const MainScreen = () => {
                     </div>
                     <div className="flex w-10 grow items-center justify-center">
                       <Link
-                        to={`/create-budget/${budget.id}`}
+                        to={`/create-budget/:${budget.id}`}
                         key={budget.id}
                         className="text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:text-[#2190BF] group"
                       >
