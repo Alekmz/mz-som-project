@@ -1,4 +1,5 @@
 import BudgetRequest from "../pages/BudgetForm";
+import SoundPlans from "../pages/SoundPlans";
 import CreateBudget from "../pages/create-budget";
 import MainScreen from "../pages/main-screen";
 export type Module =
@@ -37,6 +38,11 @@ export const ROUTES = {
     path: '/create-budget/:id',
     name: 'Criar Orçamento',
     element: <CreateBudget />,
+  },
+  'sound-plans': {
+    path: '/sound-plans',
+    name: 'Planos de Som',
+    element: <SoundPlans />,
   }
 
 } as Routes;
