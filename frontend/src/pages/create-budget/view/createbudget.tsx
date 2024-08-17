@@ -120,7 +120,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Responsável <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input required {...field} disabled />
+                      <Input required {...field} disabled={pathname.length>14} />
                     </FormControl>
 
                     <FormMessage />
