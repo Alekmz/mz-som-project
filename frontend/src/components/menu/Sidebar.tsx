@@ -1,4 +1,4 @@
-import { Speaker } from 'lucide-react';
+import { Speaker, Truck, Wrench } from 'lucide-react';
 import { useState } from 'react';
 
 const Sidebar = () => {
@@ -23,7 +23,7 @@ const Sidebar = () => {
                     {/* Conteúdo da barra lateral */}
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <a href="/create-budget/#" className="flex items-center p-2 pb-10 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:bg-gray-700 group">
+                            <a href="/create-budget" className="flex items-center p-2 pb-10 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:bg-gray-700 group">
                                 <span className="ms-3 italic">Novo <br></br> Orçamento</span>
                                 <svg className="h-7 w-7 pl-1 text-[#2190BF] transition duration-75  dark:text-[#2190BF] dark:group-hover:text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="12" y1="8" x2="12" y2="16" />  <line x1="8" y1="12" x2="16" y2="12" /></svg>
                             </a>
@@ -38,7 +38,7 @@ const Sidebar = () => {
                     </a>
                 </li>
                 <li>
-                    <a href="/create-budget/#" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:bg-gray-700 group">
+                    <a href="/create-budget" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:bg-gray-700 group">
                         <svg className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-[#2190BF] dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Z" />
                             <path d="M6.737 11.061a2.961 2.961 0 0 1 .81-1.515l6.117-6.116A4.839 4.839 0 0 1 16 2.141V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h12.134A1.97 1.97 0 0 0 16 18v-3.093l-1.546 1.546c-.413.413-.94.695-1.513.81l-3.4.679a2.947 2.947 0 0 1-1.85-.227 2.96 2.96 0 0 1-1.635-3.257l.681-3.397Z" />
@@ -59,6 +59,12 @@ const Sidebar = () => {
                     <a href="/sound-plans" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:text-[#2190BF] group">
                         <Speaker color='#6B7180'/>
                         <span className="flex-1 ms-3 whitespace-nowrap">Planos de som</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/equipments" className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:text-[#2190BF] group">
+                        <Truck   color='#6B7180'/>
+                        <span className="flex-1 ms-3 whitespace-nowrap">Equipamentos</span>
                     </a>
                 </li>
                     </ul>

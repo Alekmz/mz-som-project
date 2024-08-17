@@ -1,4 +1,5 @@
 import BudgetRequest from "../pages/BudgetForm";
+import Equipments from "../pages/Equipments";
 import SoundPlans from "../pages/SoundPlans";
 import CreateBudget from "../pages/create-budget";
 import MainScreen from "../pages/main-screen";
@@ -39,10 +40,21 @@ export const ROUTES = {
     name: 'Criar Orçamento',
     element: <CreateBudget />,
   },
+  'create-budget-new': {
+    path: '/create-budget',
+    name: 'Criar Orçamento',
+    element: <CreateBudget />,
+  },
   'sound-plans': {
     path: '/sound-plans',
     name: 'Planos de Som',
     element: <SoundPlans />,
+  },
+  'equipments': {
+    path: '/equipments',
+    name: 'Equipamentos',
+    element: <SoundPlans />,
   }
+
 
 } as Routes;
