@@ -97,6 +97,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
     }
   };
 
+  console.log(pathname.length>14)
   return (
     <div className="w-full flex justify-center items-center flex-col h-full">
       <div className="flex flex-col w-full items-center gap-5 h-full pt-12 pb-14 px-10 overflow-x-clip ">
@@ -120,7 +121,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Responsável <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input required {...field} disabled />
+                      <Input required {...field} disabled={pathname.length>14} />
                     </FormControl>
 
                     <FormMessage />
@@ -138,7 +139,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       CNPJ/CPF
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled />
+                      <Input {...field} disabled={pathname.length>14} />
                     </FormControl>
 
                     <FormMessage />
@@ -157,7 +158,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled
+                        disabled={pathname.length>14}
                         type="text"
                         placeholder="Cidade"
                         required
@@ -266,7 +267,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                             className="w-full border border-[#2190BF]"
                             {...field}
                             required
-                            disabled
+                            disabled={pathname.length>14}
                           />
                         </FormControl>
                         <FormMessage />
@@ -293,7 +294,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                         <FormControl>
                           <Button
                             variant={"outline"}
-                            disabled
+                            disabled={pathname.length>14}
                             className={cn(
                               "max-w-[500px] w-full pl-3 text-left font-normal",
                               !field.value && "text-muted-foreground"
@@ -316,7 +317,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                           selected={field.value}
                           onSelect={field.onChange}
                           required
-                          disabled
+                          disabled={pathname.length>14}
                         />
                       </PopoverContent>
                     </Popover>
@@ -338,7 +339,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     <FormControl>
                       <Input
                         className="w-full"
-                        disabled
+                        disabled={pathname.length>14}
                         {...field}
                         required
                         onChange={(e) => {
@@ -369,7 +370,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                         type="email"
                         className="w-full"
                         {...field}
-                        disabled
+                        disabled={pathname.length>14}
                       />
                     </FormControl>
 
@@ -388,7 +389,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Descrição <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled />
+                      <Textarea required {...field} disabled={pathname.length>14} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

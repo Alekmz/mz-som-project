@@ -1,0 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+export interface Equipment {
+  id: number;
+  name: string;
+  departmentId: number;
+  amount: number;
+}
+
+export const useGetEquipments = () => {
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["todos"],
+    queryFn: () =>
+      axios
+        .get(`http://localhost:3000/equipments/department/${1}`)
+        .then((res) => res.data as Equipment[]),
+  });
+  return {
+    isPending,
+    isError,
+    data,
+    error,
+  };
+};
