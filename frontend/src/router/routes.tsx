@@ -53,7 +53,7 @@ export const ROUTES = {
   'equipments': {
     path: '/equipments',
     name: 'Equipamentos',
-    element: <SoundPlans />,
+    element: <Equipments />,
   }
 
 

@@ -97,6 +97,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
     }
   };
 
+  console.log(pathname.length>14)
   return (
     <div className="w-full flex justify-center items-center flex-col h-full">
       <div className="flex flex-col w-full items-center gap-5 h-full mt-6 md:mt-16 mb-6 pt-20 pb-14 px-10 overflow-x-clip ">
@@ -388,24 +389,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Descrição <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled ={pathname.length>14} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
-              <FormField
-                control={form.control}
-                name="descricao"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                      Observações
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea required {...field} disabled ={pathname.length>14} />
+                      <Textarea required {...field} disabled />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
