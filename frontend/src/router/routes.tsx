@@ -41,7 +41,7 @@ export const ROUTES = {
     element: <CreateBudget />,
   },
   'create-budget-new': {
-    path: '/create-budget',
+    path: '/create-budget/:id',
     name: 'Criar Orçamento',
     element: <CreateBudget />,
   },

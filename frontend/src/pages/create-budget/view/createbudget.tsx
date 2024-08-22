@@ -385,11 +385,28 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                 name="descricao"
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel>
+                    <FormLabel className="text-start text-[#2B3940] text-lg">
                       Descrição <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled />
+                      <Textarea required {...field} disabled={pathname.length>14} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <FormField
+                control={form.control}
+                name="descricao"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
+                      Observações 
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea required {...field} disabled={pathname.length>14} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

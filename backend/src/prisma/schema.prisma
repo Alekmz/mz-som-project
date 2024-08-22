@@ -21,3 +21,29 @@ model budget_request {
   data_cadastro DateTime @default(now())
 }
 
+model Department {
+  id        Int        @id @default(autoincrement())
+  name      String
+  equipments Equipment[]
+
+  @@map("departments")
+}
+
+
+model Equipment {
+  id           Int        @id @default(autoincrement())
+  name         String
+  department   Department @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  amount       Int
+
+  @@map("equipments")
+}
+
+
+model File {
+  id        Int      @id @default(autoincrement())
+  name      String
+  url       String
+  createdAt DateTime @default(now())
+}
