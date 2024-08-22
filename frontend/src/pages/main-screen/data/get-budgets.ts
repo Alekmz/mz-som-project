@@ -16,15 +16,16 @@ interface Budget {
 }
 
 export const useGetBudgets = () => {
-  const { isPending, isError, data, error } = useQuery({
+  const { isLoading, isError, data, error } = useQuery<Budget[]>({
     queryKey: ["todos"],
     queryFn: () =>
       axios
         .get("http://localhost:3000/budget-request")
-        .then((res) => res.data as Budget),
+        .then((res) => res.data as Budget[]), // Certifique-se de que res.data é um array de Budgets
   });
+
   return {
-    isPending,
+    isLoading,
     isError,
     data,
     error,

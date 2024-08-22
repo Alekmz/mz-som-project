@@ -44,7 +44,7 @@ class BugdetRepository {
   async findById(id: number) {
     const budget = await prisma.budget_request.findUnique({
       where: {
-        id,
+        id: id,
       },
     });
     return budget;

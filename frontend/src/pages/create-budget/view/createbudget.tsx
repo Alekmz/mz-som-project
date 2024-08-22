@@ -99,7 +99,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
 
   return (
     <div className="w-full flex justify-center items-center flex-col h-full">
-      <div className="flex flex-col w-full items-center gap-5 h-full pt-12 pb-14 px-10 overflow-x-clip ">
+      <div className="flex flex-col w-full items-center gap-5 h-full mt-6 md:mt-16 mb-6 pt-20 pb-14 px-10 overflow-x-clip ">
         <div className="flex pb-8 justify-center dark:bg-gray-800">
           <p className="text-xl text-[#2B3A41] dark:text-gray-500">
             Criar novo Orçamento
@@ -138,7 +138,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       CNPJ/CPF
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled />
+                      <Input {...field} disabled={pathname.length>14} />
                     </FormControl>
 
                     <FormMessage />
@@ -157,7 +157,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled
+                        disabled={pathname.length>14}
                         type="text"
                         placeholder="Cidade"
                         required
@@ -266,7 +266,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                             className="w-full border border-[#2190BF]"
                             {...field}
                             required
-                            disabled
+                            disabled={pathname.length>14}
                           />
                         </FormControl>
                         <FormMessage />
@@ -293,7 +293,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                         <FormControl>
                           <Button
                             variant={"outline"}
-                            disabled
+                            disabled={pathname.length>14}
                             className={cn(
                               "max-w-[500px] w-full pl-3 text-left font-normal",
                               !field.value && "text-muted-foreground"
@@ -316,7 +316,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                           selected={field.value}
                           onSelect={field.onChange}
                           required
-                          disabled
+                          disabled={pathname.length>14}
                         />
                       </PopoverContent>
                     </Popover>
@@ -338,7 +338,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     <FormControl>
                       <Input
                         className="w-full"
-                        disabled
+                        disabled={pathname.length>14}
                         {...field}
                         required
                         onChange={(e) => {
@@ -369,7 +369,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                         type="email"
                         className="w-full"
                         {...field}
-                        disabled
+                        disabled={pathname.length>14}
                       />
                     </FormControl>
 
@@ -388,7 +388,24 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Descrição <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled />
+                      <Textarea required {...field} disabled ={pathname.length>14} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <FormField
+                control={form.control}
+                name="descricao"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
+                      Observações
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea required {...field} disabled ={pathname.length>14} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
