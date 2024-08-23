@@ -12,23 +12,54 @@ model budget_request {
   responsavel   String
   cpf_cnpj      String?
   local_evento  String
-  servicos  String[]
+  servicos      String[]
   data_evento   DateTime
-  telefone       String
+  telefone      String
   tipo_evento   String?
   email         String?
   descricao     String
   data_cadastro DateTime @default(now())
 }
 
+model SoundPlans {
+  id            Int         @id @default(autoincrement())
+  caminhao      String
+  departamentId Int?
+  department    Department? @relation(fields: [departamentId], references: [id])
+  valor_plano   Decimal     @db.Decimal(10, 2)
+
+  Budget Budget[]
+
+  @@map("sound_plans")
+}
+
+model Budget {
+  id            Int         @id @default(autoincrement())
+  responsavel   String
+  cpfCnpj       String?
+  localEvento   String
+  servicos      String[]
+  dataEvento    DateTime
+  telefone      String
+  tipoEvento    String?
+  email         String?
+  descricao     String
+  soundPlanId   Int?
+  soundPlans    SoundPlans? @relation(fields: [soundPlanId], references: [id])
+  observacoes   String
+  data_cadastro DateTime    @default(now())
+
+  @@map("budget")
+}
+
 model Department {
-  id        Int        @id @default(autoincrement())
-  name      String
-  equipments Equipment[]
+  id          Int           @id @default(autoincrement())
+  name        String
+  equipments  Equipment[]
+  soundPlans SoundPlans[]
 
   @@map("departments")
 }
-
 
 model Equipment {
   id           Int        @id @default(autoincrement())
@@ -39,7 +70,6 @@ model Equipment {
 
   @@map("equipments")
 }
-
 
 model File {
   id        Int      @id @default(autoincrement())

@@ -33,15 +33,6 @@ import { useLocation } from "react-router-dom";
 import Footer from "../../../components/footer/footer";
 import Header from "../../../components/header/Header";
 import Sidebar from "../../../components/menu/Sidebar";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "../../components/ui/table";
 
 const CreateSoundPlan = ({ setDataForBudget }: any) => {
   const { toast } = useToast();

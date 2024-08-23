@@ -32,32 +32,47 @@ import { useToast } from "../../../components/ui/use-toast";
 
 
 import { useLocation } from "react-router-dom";
-import { useGetRequestBudget } from "../data/get-request-budget";
+import { useGetDepartments } from "../data/get-department";
+interface FormValues {
+  id_department: number; // ou número, dependendo de como você está lidando com IDs
+}
 
 const CreateBudget = ({ setDataForBudget }: any) => {
+  const { data } = useGetDepartments();
+  const { watch, setValue } = useForm<FormValues>();
+  const selectedIdDepartment = watch('id_department');
+  console.log(data);
   const { pathname } = useLocation();
+  const [selectedDepartmentName, setSelectedDepartmentName] = useState<string | null>(null);
 
-  const { data } = useGetRequestBudget(Number(pathname.split(":")[1]));
+  // const { data } = useGetRequestBudget(Number(pathname.split(":")[1]));
   const { toast } = useToast();
 
   const form = useForm();
 
   useEffect(() => {
-    form.reset({
-      data_evento: data?.data_evento,
-      email: data?.email,
-      telefone: data?.telefone,
-      responsavel: data?.responsavel,
-      cpf_cnpj: data?.cpf_cnpj,
-      local_evento: data?.local_evento,
-      tipo_evento: data?.tipo_evento,
-      servicos: data?.servicos.map((servico: any) => ({
-        label: servico,
-        value: servico,
-      })),
-      descricao: data?.descricao,
-    });
-  }, [data]);
+    const selectedDepartment = data?.find(
+      (department: any) => department.id === selectedIdDepartment
+    );
+    setSelectedDepartmentName(selectedDepartment?.name || null);
+  }, [selectedIdDepartment, data]);
+
+  // useEffect(() => {
+  //   form.reset({
+  //     data_evento: data?.data_evento,
+  //     email: data?.email,
+  //     telefone: data?.telefone,
+  //     responsavel: data?.responsavel,
+  //     cpf_cnpj: data?.cpf_cnpj,
+  //     local_evento: data?.local_evento,
+  //     tipo_evento: data?.tipo_evento,
+  //     servicos: data?.servicos.map((servico: any) => ({
+  //       label: servico,
+  //       value: servico,
+  //     })),
+  //     descricao: data?.descricao,
+  //   });
+  // }, [data]);
 
   function formatarTelefone(numero: any) {
     var numeroLimpo = numero.replace(/\D/g, "");
@@ -97,7 +112,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
     }
   };
 
-  console.log(pathname.length>14)
+  console.log(pathname.length > 14)
   return (
     <div className="w-full flex justify-center items-center flex-col h-full">
       <div className="flex flex-col w-full items-center gap-5 h-full mt-6 md:mt-16 mb-6 pt-20 pb-14 px-10 overflow-x-clip ">
@@ -121,7 +136,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Responsável <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input required {...field} disabled={pathname.length>14} />
+                      <Input required {...field} disabled={pathname.length > 14} />
                     </FormControl>
 
                     <FormMessage />
@@ -139,7 +154,60 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       CNPJ/CPF
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} disabled={pathname.length>14} />
+                      <Input {...field} disabled={pathname.length > 14} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <FormField
+                control={form.control}
+                name="telefone"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
+                      Telefone (ex: 49 9988-8888){" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full"
+                        disabled={pathname.length > 14}
+                        {...field}
+                        required
+                        onChange={(e) => {
+                          form.setValue(
+                            "telefone",
+                            formatarTelefone(e.currentTarget.value)
+                          );
+                        }}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        className="w-full"
+                        {...field}
+                        disabled={pathname.length > 14}
+                      />
                     </FormControl>
 
                     <FormMessage />
@@ -158,7 +226,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     </FormLabel>
                     <FormControl>
                       <Input
-                        disabled={pathname.length>14}
+                        disabled={pathname.length > 14}
                         type="text"
                         placeholder="Cidade"
                         required
@@ -167,6 +235,55 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       />
                     </FormControl>
 
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <Label
+                htmlFor="picture"
+                className="text-start text-[#2B3940] font-nunito font-light text-lg"
+              >
+                Data do Evento <span className="text-red-500">*</span>
+              </Label>
+              <FormField
+                control={form.control}
+                name="data_evento"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col w-full">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            disabled={pathname.length > 14}
+                            className={cn(
+                              "max-w-[500px] w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "dd/MM/yyyy")
+                            ) : (
+                              <span>Selecione a data do seu evento</span>
+                            )}
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-full max-w-[500px] p-0"
+                        align="start"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          required
+                          disabled={pathname.length > 14}
+                        />
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -267,7 +384,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                             className="w-full border border-[#2190BF]"
                             {...field}
                             required
-                            disabled={pathname.length>14}
+                            disabled={pathname.length > 14}
                           />
                         </FormControl>
                         <FormMessage />
@@ -278,106 +395,52 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               )}
             </div>
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
-              <Label
-                htmlFor="picture"
-                className="text-start text-[#2B3940] font-nunito font-light text-lg"
-              >
-                Data do Evento <span className="text-red-500">*</span>
-              </Label>
               <FormField
                 control={form.control}
-                name="data_evento"
+                name="plano_som"
                 render={({ field }) => (
-                  <FormItem className="flex flex-col w-full">
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            disabled={pathname.length>14}
-                            className={cn(
-                              "max-w-[500px] w-full pl-3 text-left font-normal",
-                              !field.value && "text-muted-foreground"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "dd/MM/yyyy")
-                            ) : (
-                              <span>Selecione a data do seu evento</span>
-                            )}
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        className="w-full max-w-[500px] p-0"
-                        align="start"
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          required
-                          disabled={pathname.length>14}
-                        />
-                      </PopoverContent>
-                    </Popover>
+                  <FormItem className="w-full">
+                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
+                      Plano de Som
+                    </FormLabel>
+                    <Select onValueChange={(value) => {
+                      const id = Number(value);
+                      setValue("id_department", Number(value));
+                      const selectedDepartment = data?.find(
+                        (department: any) => department.id === id
+                      );
+                      setSelectedDepartmentName(selectedDepartment?.name || null);
+                    }}
+                      value={field.value?.toString() || ""}
+
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full max-w-[500px]">
+                          <span>
+                            {selectedDepartmentName || "Selecione um plano de som"}
+                          </span>
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {data?.map((department) => (
+                          <SelectItem key={department.id} value={department.id.toString()}>
+                            {department.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
-              <FormField
-                control={form.control}
-                name="telefone"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                      Telefone (ex: 49 9988-8888){" "}
-                      <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        className="w-full"
-                        disabled={pathname.length>14}
-                        {...field}
-                        required
-                        onChange={(e) => {
-                          form.setValue(
-                            "telefone",
-                            formatarTelefone(e.currentTarget.value)
-                          );
-                        }}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div>
+            <div>
+              Id Plano selecionado: {selectedIdDepartment}
             </div>
-            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        className="w-full"
-                        {...field}
-                        disabled={pathname.length>14}
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div>
+              {selectedDepartmentName}
+            </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
@@ -389,7 +452,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Descrição <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled={pathname.length>14} />
+                      <Textarea required {...field} disabled={pathname.length > 14} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -403,10 +466,10 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                      Observações 
+                      Observações
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled={pathname.length>14} />
+                      <Textarea required {...field} disabled={pathname.length > 14} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
