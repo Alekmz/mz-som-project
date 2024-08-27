@@ -7,7 +7,7 @@ export interface Department {
 }
 
 export const useGetDepartments = () => {
-  const { isPending, isError, data, error } = useQuery({
+  const { isPending, isError, data, error, refetch } = useQuery({
     queryKey: ["departments"],
     queryFn: () =>
       axios
@@ -19,5 +19,6 @@ export const useGetDepartments = () => {
     isError,
     data,
     error,
+    refetch
   };
 };
