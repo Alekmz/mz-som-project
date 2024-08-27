@@ -30,7 +30,8 @@ class CreateBudgetRepository {
                 observacoes: data.observacoes, // Incluindo campo 'observacoes'
                 soundPlanId: data.soundPlanId || undefined,
             }
-        })
+        });
+        return createBudget;
     }
 }
 

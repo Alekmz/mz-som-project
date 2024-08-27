@@ -54,7 +54,7 @@ class BudgetController {
         .then(() => {
           response
             .status(200)
-            .json({ message: 'Orçamento criado com sucesso!' })
+            .json({ message: 'Solicitação criada com sucesso!' })
         })
         .catch((error) => {
           console.log(error)

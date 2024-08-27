@@ -33,11 +33,14 @@ import { useToast } from "../../../components/ui/use-toast";
 
 import { useLocation } from "react-router-dom";
 import { useGetDepartments } from "../data/get-department";
+import { postCreateBudget } from "../data/post-create";
 interface FormValues {
   id_department: number; // ou número, dependendo de como você está lidando com IDs
 }
 
 const CreateBudget = ({ setDataForBudget }: any) => {
+  const { mutateAsync } = postCreateBudget();
+  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const { data } = useGetDepartments();
   const { watch, setValue } = useForm<FormValues>();
   const selectedIdDepartment = watch('id_department');
@@ -74,6 +77,38 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   //   });
   // }, [data]);
 
+  const onSubmit = (data: any) => {
+    if (!data?.dataEvento) {
+      toast({
+        title: "Você precisa inserir uma data",
+        description: "Por favor, insira uma data para o evento.",
+        variant: "destructive",
+      });
+    } else {
+      const { servicos, tipo_evento, outro_tipo_evento, ...payload } = data;
+      console.log(data);
+      const formattedData = {
+        servicos: servicos.map((servico: { value: any }) => servico.value),
+        tipoEvento:
+          data.tipoEvento === "outro"
+            ? data.outro_tipo_evento
+            : data.tipoEvento,
+        ...payload,
+      };
+      mutateAsync(formattedData)
+        .then(() => {
+          setOpenDialog(true);
+        })
+        .catch((error) => {
+          toast({
+            title: "Erro",
+            description: error.message,
+            variant: "destructive",
+          });
+        });
+    }
+  };
+
   function formatarTelefone(numero: any) {
     var numeroLimpo = numero.replace(/\D/g, "");
     var numeroFormatado = numeroLimpo.replace(
@@ -95,24 +130,6 @@ const CreateBudget = ({ setDataForBudget }: any) => {
     { label: "Grades de Isolamento", value: "grades_isolamento" },
   ];
 
-  const onSubmit = (data: any) => {
-    if (!data?.data_evento) {
-      toast({
-        title: "Você precisa inserir uma data",
-        description: "Por favor, insira uma data para o evento.",
-        variant: "destructive",
-      });
-    } else {
-      const { servicos, ...payload } = data;
-      const formattedData = {
-        servicos: servicos.map((servico: { value: any }) => servico.value),
-        ...payload,
-      };
-      setDataForBudget(formattedData);
-    }
-  };
-
-  console.log(pathname.length > 14)
   return (
     <div className="w-full flex justify-center items-center flex-col h-full">
       <div className="flex flex-col w-full items-center gap-5 h-full mt-6 md:mt-16 mb-6 pt-20 pb-14 px-10 overflow-x-clip ">
@@ -218,7 +235,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
                 control={form.control}
-                name="local_evento"
+                name="localEvento"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
@@ -249,7 +266,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               </Label>
               <FormField
                 control={form.control}
-                name="data_evento"
+                name="dataEvento"
                 render={({ field }) => (
                   <FormItem className="flex flex-col w-full">
                     <Popover>
@@ -319,7 +336,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
                 control={form.control}
-                name="tipo_evento"
+                name="tipoEvento"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
@@ -462,7 +479,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
                 control={form.control}
-                name="descricao"
+                name="observacoes"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">

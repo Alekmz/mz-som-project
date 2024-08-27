@@ -6,7 +6,7 @@ import { uploadFile } from './app/controllers/FileController'
 import multer from 'multer';
 import { departmentController } from './app/controllers/DepartmentController';
 import { equipmentController } from './app/controllers/EquipmentController';
-//import {createBudgetController } from './app/controllers/CreateBudgetController';
+import {createBudgetController } from './app/controllers/CreateBudgetController';
 
 const routes = Router()
 const upload = multer({ dest: 'uploads/' });
@@ -31,7 +31,7 @@ routes.get('/equipment/:id', equipmentController.show);
 routes.get('/equipments/department/:departmentId', equipmentController.getEquipmentsByDepartment);
 
 // create budget
-// routes.post('/create-budget', createBudgetController.store);
+routes.post('/create-budget', createBudgetController.store);
 // routes.get('/create-budget', createBudgetController.index);
 // routes.get('/create-budget/;id', createBudgetController.show);
 
