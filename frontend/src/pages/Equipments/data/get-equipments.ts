@@ -9,7 +9,7 @@ export interface Equipment {
 }
 
 export const useGetEquipments = () => {
-  const { isPending, isError, data, error } = useQuery({
+  const { isPending, isError, data, error, refetch } = useQuery({
     queryKey: ["todos"],
     queryFn: () =>
       axios
@@ -21,5 +21,6 @@ export const useGetEquipments = () => {
     isError,
     data,
     error,
+    refetch
   };
 };
