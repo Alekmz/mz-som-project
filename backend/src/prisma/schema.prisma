@@ -23,6 +23,7 @@ model budget_request {
 
 model SoundPlans {
   id            Int         @id @default(autoincrement())
+  name          String
   caminhao      String
   departamentId Int?
   department    Department? @relation(fields: [departamentId], references: [id])
@@ -53,9 +54,9 @@ model Budget {
 }
 
 model Department {
-  id          Int           @id @default(autoincrement())
-  name        String
-  equipments  Equipment[]
+  id         Int          @id @default(autoincrement())
+  name       String
+  equipments Equipment[]
   soundPlans SoundPlans[]
 
   @@map("departments")

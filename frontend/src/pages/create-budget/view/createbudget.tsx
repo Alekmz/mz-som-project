@@ -32,21 +32,21 @@ import { useToast } from "../../../components/ui/use-toast";
 
 
 import { useLocation } from "react-router-dom";
-import { useGetDepartments } from "../data/get-department";
+import { useGetSoundPlans } from "../data/get-sound-plans";
 import { postCreateBudget } from "../data/post-create";
 interface FormValues {
-  id_department: number; // ou número, dependendo de como você está lidando com IDs
+  id_Soundplans: number; // ou número, dependendo de como você está lidando com IDs
 }
 
 const CreateBudget = ({ setDataForBudget }: any) => {
   const { mutateAsync } = postCreateBudget();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const { data } = useGetDepartments();
+  const { data } = useGetSoundPlans();
   const { watch, setValue } = useForm<FormValues>();
-  const selectedIdDepartment = watch('id_department');
+  const selectedIdSoundplans = watch('id_Soundplans');
   console.log(data);
   const { pathname } = useLocation();
-  const [selectedDepartmentName, setSelectedDepartmentName] = useState<string | null>(null);
+  const [selectedSoundplans, setSelectedSoundplans] = useState<string | null>(null);
 
   // const { data } = useGetRequestBudget(Number(pathname.split(":")[1]));
   const { toast } = useToast();
@@ -54,11 +54,11 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   const form = useForm();
 
   useEffect(() => {
-    const selectedDepartment = data?.find(
-      (department: any) => department.id === selectedIdDepartment
+    const selectedSoundplans = data?.find(
+      (soundplans: any) => soundplans.id === selectedIdSoundplans
     );
-    setSelectedDepartmentName(selectedDepartment?.name || null);
-  }, [selectedIdDepartment, data]);
+    setSelectedSoundplans(selectedSoundplans?.name || null);
+  }, [selectedIdSoundplans, data]);
 
   // useEffect(() => {
   //   form.reset({
@@ -164,7 +164,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
                 control={form.control}
-                name="cpf_cnpj"
+                name="cpfCnpj"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
@@ -420,28 +420,28 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
                       Plano de Som
                     </FormLabel>
-                    <Select onValueChange={(value) => {
-                      const id = Number(value);
-                      setValue("id_department", Number(value));
-                      const selectedDepartment = data?.find(
-                        (department: any) => department.id === id
-                      );
-                      setSelectedDepartmentName(selectedDepartment?.name || null);
-                    }}
-                      value={field.value?.toString() || ""}
-
+                    <Select
+                      value={field.value ? field.value.toString() : ""} // O valor deve ser uma string
+                      onValueChange={(value) => {
+                        const id = Number(value);
+                        field.onChange(id); // Atualiza o valor do campo do formulário
+                        const selectedSoundplans = data?.find(
+                          (Soundplans) => Soundplans.id === id
+                        );
+                        setSelectedSoundplans(selectedSoundplans?.name || null);
+                      }}
                     >
                       <FormControl>
                         <SelectTrigger className="w-full max-w-[500px]">
                           <span>
-                            {selectedDepartmentName || "Selecione um plano de som"}
+                            {selectedSoundplans || "Selecione um plano de som"}
                           </span>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {data?.map((department) => (
-                          <SelectItem key={department.id} value={department.id.toString()}>
-                            {department.name}
+                        {data?.map((Soundplans) => (
+                          <SelectItem key={Soundplans.id} value={Soundplans.id.toString()}>
+                            {Soundplans.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -452,12 +452,12 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               />
             </div>
             <div>
-            <div>
-              Id Plano selecionado: {selectedIdDepartment}
-            </div>
-            <div>
-              {selectedDepartmentName}
-            </div>
+              <div>
+                Id Plano selecionado: {selectedIdSoundplans}
+              </div>
+              <div>
+                {selectedSoundplans}
+              </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
