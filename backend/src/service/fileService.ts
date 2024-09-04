@@ -17,7 +17,7 @@ export const saveFile = async (file: UploadedFile): Promise<string> => {
 
   const savedFile = await createFile({
     name: fileName,
-    url: `https://app.mzsom.com.br/uploads/${fileName}`
+    url: `http://localhost:3000/uploads/${fileName}`
   });
 
   return savedFile.url;

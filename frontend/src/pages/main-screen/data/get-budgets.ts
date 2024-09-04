@@ -20,7 +20,7 @@ export const useGetBudgets = () => {
     queryKey: ["todos"],
     queryFn: () =>
       axios
-        .get("https://app.mzsom.com.br/budget-request")
+        .get("http://localhost:3000/budget-request")
         .then((res) => res.data as Budget[]), // Certifique-se de que res.data é um array de Budgets
   });
 

@@ -3,8 +3,10 @@ import Header from "../../components/header/Header";
 import { Link } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 import { format } from "date-fns";
+import { useGetAllBudgets } from "./data/getAllBudgets";
 
 const AllBudgets = () => {
+const {data} = useGetAllBudgets();
     return (
         <div className="bg-white w-full h-screen flex flex-col">
       <Header />
@@ -15,7 +17,7 @@ const AllBudgets = () => {
           <div className="mb-4">
             <div className="flex pb-3 justify-center dark:bg-gray-800">
               <p className="text-md text-[#2B3A41] dark:text-gray-500">
-                Novas Solicitações
+                Orçamentos
               </p>
             </div>
             <div className="">
@@ -62,7 +64,7 @@ const AllBudgets = () => {
                 </div>
               </div>
 
-              {/* {data &&
+              {data &&
                 data.map((budget) => (
                   <div className="flex h-10 rounded-lg items-center dark:bg-gray-800">
                     <div
@@ -86,7 +88,7 @@ const AllBudgets = () => {
                     </div>
                     <div className="flex w-10 grow justify-between items-center">
                       <p className="text-xs text-[#2B3A41] dark:text-gray-500">
-                        {budget.tipo_evento}
+                        {budget.tipoEvento}
                       </p>
                       <div className="text-md text-[#2B3A41] dark:text-gray-500 px-1">
                         |
@@ -94,7 +96,7 @@ const AllBudgets = () => {
                     </div>
                     <div className="flex w-20 grow justify-between items-center">
                       <p className="text-xs text-[#2B3A41] dark:text-gray-500">
-                        {format(budget.data_evento, "dd/MM/yyyy")}
+                        {format(budget.dataEvento, "dd/MM/yyyy")}
                       </p>
                       <div className="text-md text-[#2B3A41] dark:text-gray-500 px-1">
                         |
@@ -125,7 +127,7 @@ const AllBudgets = () => {
                       </Link>
                     </div>
                   </div>
-                ))} */}
+                ))}
             </div>
           </div>
         </div>

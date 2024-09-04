@@ -15,6 +15,11 @@ interface CreateBudget {
 }
 
 class CreateBudgetRepository {
+    async findAll () {
+        const budgets = await prisma.budget.findMany();
+        return budgets;
+    }
+
     async create(data: CreateBudget) {
         const createBudget = await prisma.budget.create({
             data: {
