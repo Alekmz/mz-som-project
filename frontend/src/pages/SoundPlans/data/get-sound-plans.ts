@@ -11,11 +11,11 @@ interface SoundPlans {
 }
 export const useGetSoundPlans = () => {
   const { isLoading, isError, data, error } = useQuery<SoundPlans[]>({
-    queryKey: ["soundPlans"], 
+    queryKey: ["soundPlans"],
     queryFn: () =>
       axios
-        .get(`http://localhost:3000/sound-plans`)
-        .then((res) => res.data as SoundPlans[]), 
+        .get(`http://app.mzsom.com.br/api/sound-plans`)
+        .then((res) => res.data as SoundPlans[]),
   });
 
   return {
