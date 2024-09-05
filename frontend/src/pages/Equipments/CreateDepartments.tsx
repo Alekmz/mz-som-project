@@ -3,8 +3,6 @@ import Header from "../../components/header/Header";
 import Sidebar from "../../components/menu/Sidebar";
 
 import { Button } from "../../components/ui/button";
-import { useGetEquipments } from "./data/get-equipments";
-import { useGetDepartments } from "./data/get-departments";
 import {
   Form,
   FormControl,
@@ -15,15 +13,15 @@ import {
 } from "../../components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
-import { useState } from "react";
 import { useCreateDepartment } from "./data/create-department";
+import { Department } from "./data/get-departments";
 
 interface Props {
   setIsCreateDepartment: (value: boolean) => void
+  departments: Department[] | undefined
+  refetch: () => void
 }
-const CreateDepartments = ({setIsCreateDepartment}:Props) => {
-  const [hiddenPlains, setHiddenPlains] = useState(false);
-  const { data: departments, refetch } = useGetDepartments();
+const CreateDepartments = ({setIsCreateDepartment, departments, refetch}:Props) => {
   const { mutateAsync: createDepartment } = useCreateDepartment();
   const form = useForm();
 

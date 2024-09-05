@@ -1,10 +1,8 @@
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/Header";
 import Sidebar from "../../components/menu/Sidebar";
-
 import { Button } from "../../components/ui/button";
-import { useGetEquipments } from "./data/get-equipments";
-import { useGetDepartments } from "./data/get-departments";
+import { Department } from "./data/get-departments";
 import {
   Form,
   FormControl,
@@ -15,7 +13,6 @@ import {
 } from "../../components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
-import { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -24,16 +21,15 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { useCreateEquipment } from "./data/create-equipment";
-import { toast, useToast } from "../../components/ui/use-toast";
+import { useToast } from "../../components/ui/use-toast";
 
 interface Props {
   setIsCreateEquipment: (value: boolean) => void
+  departments: Department[] | undefined
+  refetch: () => void
 }
-const CreateEquipment = ({setIsCreateEquipment}: Props) => {
-  const [hiddenPlains, setHiddenPlains] = useState(false);
+const CreateEquipment = ({setIsCreateEquipment, departments, refetch}: Props) => {
   const {  mutateAsync: createEquipment } = useCreateEquipment()
-  const { isPending, isError, data, error, refetch  } = useGetEquipments();
-  const { data: departments } = useGetDepartments();
   const form = useForm();
   const { toast } = useToast();
 

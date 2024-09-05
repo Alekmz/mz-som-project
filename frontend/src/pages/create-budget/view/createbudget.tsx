@@ -42,8 +42,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   const { mutateAsync } = postCreateBudget();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const { data } = useGetSoundPlans();
-  const { watch, setValue } = useForm<FormValues>();
-  const selectedIdSoundplans = watch('id_Soundplans');
+
   console.log(data);
   const { pathname } = useLocation();
   const [selectedSoundplans, setSelectedSoundplans] = useState<string | null>(null);
@@ -58,7 +57,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
       (soundplans: any) => soundplans.id === selectedIdSoundplans
     );
     setSelectedSoundplans(selectedSoundplans?.name || null);
-  }, [selectedIdSoundplans, data]);
+  }, [data]);
 
   // useEffect(() => {
   //   form.reset({
@@ -453,7 +452,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             </div>
             <div>
               <div>
-                Id Plano selecionado: {selectedIdSoundplans}
+                {/* Id Plano selecionado: {selectedIdSoundplans} */}
               </div>
               <div>
                 {selectedSoundplans}

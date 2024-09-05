@@ -23,18 +23,17 @@ import CreateDepartments from "./CreateDepartments";
 import CreateEquipment from "./CreateEquipment";
 
 const Equipments = () => {
-  const [hiddenPlains, setHiddenPlains] = useState(false);
   const [isCreateDepartment, setIsCreateDepartment] = useState(false);
   const [isCreateEquipment, setIsCreateEquipment] = useState(false);
-  const { isPending, isError, data, error } = useGetEquipments();
-  const { data: departments } = useGetDepartments();
+  const { data, refetch: refetchEquipments } = useGetEquipments();
+  const { data: departments, refetch } = useGetDepartments();
 
   return (
     <>
       <Header />
       <Sidebar />
-      {isCreateDepartment && <CreateDepartments setIsCreateDepartment={setIsCreateDepartment} />}
-      {isCreateEquipment && <CreateEquipment setIsCreateEquipment={setIsCreateEquipment} />}
+      {isCreateDepartment && <CreateDepartments setIsCreateDepartment={setIsCreateDepartment} departments={departments} refetch={refetch} />}
+      {isCreateEquipment && <CreateEquipment setIsCreateEquipment={setIsCreateEquipment} departments={departments} refetch={refetchEquipments}/>}
 
       {!isCreateDepartment && !isCreateEquipment && (
         <div className="w-full flex justify-center items-center flex-col h-full">

@@ -13,7 +13,7 @@ export const useGetEquipments = () => {
     queryKey: ["todos"],
     queryFn: () =>
       axios
-        .get(`http://localhost:3000/equipments/department/${1}`)
+        .get(`http://localhost:3000/equipment`)
         .then((res) => res.data as Equipment[]),
   });
   return {
