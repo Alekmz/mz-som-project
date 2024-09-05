@@ -32,18 +32,13 @@ import { useToast } from "../../../components/ui/use-toast";
 
 
 import { useLocation } from "react-router-dom";
-import { useGetSoundPlans } from "../data/get-sound-plans";
+import { useGetSoundPlans } from "../../SoundPlans/data/get-sound-plans";
 import { postCreateBudget } from "../data/post-create";
-interface FormValues {
-  id_Soundplans: number; // ou número, dependendo de como você está lidando com IDs
-}
 
 const CreateBudget = ({ setDataForBudget }: any) => {
   const { mutateAsync } = postCreateBudget();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const { data } = useGetSoundPlans();
-
-  console.log(data);
+  const { data : soundplans } = useGetSoundPlans();
   const { pathname } = useLocation();
   const [selectedSoundplans, setSelectedSoundplans] = useState<string | null>(null);
 
@@ -52,12 +47,12 @@ const CreateBudget = ({ setDataForBudget }: any) => {
 
   const form = useForm();
 
-  useEffect(() => {
-    const selectedSoundplans = data?.find(
-      (soundplans: any) => soundplans.id === selectedIdSoundplans
-    );
-    setSelectedSoundplans(selectedSoundplans?.name || null);
-  }, [data]);
+  // useEffect(() => {
+  //   const selectedSoundplans = soundplans?.find(
+  //     (soundplans: any) => soundplans.id === selectedIdSoundplans
+  //   );
+  //   setSelectedSoundplans(selectedSoundplans?.name || null);
+  // }, [selectedIdSoundplans, soundplans]);
 
   // useEffect(() => {
   //   form.reset({
@@ -84,9 +79,9 @@ const CreateBudget = ({ setDataForBudget }: any) => {
         variant: "destructive",
       });
     } else {
-      const { servicos, tipo_evento, outro_tipo_evento, ...payload } = data;
-      console.log(data);
+      const { plano_som, servicos, tipo_evento, outro_tipo_evento, planoSom, ...payload } = data;
       const formattedData = {
+        soundPlanId: soundplans && soundplans?.find((soundplan) => soundplan.name === planoSom)?.id,
         servicos: servicos.map((servico: { value: any }) => servico.value),
         tipoEvento:
           data.tipoEvento === "outro"
@@ -94,6 +89,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             : data.tipoEvento,
         ...payload,
       };
+      console.log(formattedData);
       mutateAsync(formattedData)
         .then(() => {
           setOpenDialog(true);
@@ -413,22 +409,25 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
                 control={form.control}
-                name="plano_som"
+                name="planoSom"
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
                       Plano de Som
                     </FormLabel>
                     <Select
-                      value={field.value ? field.value.toString() : ""} // O valor deve ser uma string
-                      onValueChange={(value) => {
-                        const id = Number(value);
-                        field.onChange(id); // Atualiza o valor do campo do formulário
-                        const selectedSoundplans = data?.find(
-                          (Soundplans) => Soundplans.id === id
-                        );
-                        setSelectedSoundplans(selectedSoundplans?.name || null);
-                      }}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                      // value={field.value ? field.value.toString() : ""} // O valor deve ser uma string
+                      // onValueChange={(value) => {
+                      //   const id = Number(value);
+                      //   field.onChange(id); // Atualiza o valor do campo do formulário
+                      //   const selectedSoundplans = soundplans?.find(
+                      //     (Soundplans) => Soundplans.id === id
+                      //   );
+                      //   setSelectedSoundplans(selectedSoundplans?.name || null);
+                      // }}
                     >
                       <FormControl>
                         <SelectTrigger className="w-full max-w-[500px]">
@@ -438,9 +437,9 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {data?.map((Soundplans) => (
-                          <SelectItem key={Soundplans.id} value={Soundplans.id.toString()}>
-                            {Soundplans.name}
+                        {soundplans?.map((soundPlain) => (
+                          <SelectItem key={soundPlain.id} value={soundPlain.name}>
+                            {soundPlain.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -451,9 +450,6 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               />
             </div>
             <div>
-              <div>
-                {/* Id Plano selecionado: {selectedIdSoundplans} */}
-              </div>
               <div>
                 {selectedSoundplans}
               </div>

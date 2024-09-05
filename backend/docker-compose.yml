@@ -1,25 +1,33 @@
 version: '3'
-
 services:
   db:
     image: postgres
     restart: always
     volumes:
-     - pgdata:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres  
-      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
+    networks:
+      - my-network
+
+  backend:
+    build:
+      context: . # O Dockerfile está na raiz do projeto (mesma pasta do docker-compose.yml)
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/postgres"
+    ports:
+      - 3000:3000 # Alterar se seu backend usar outra porta
+    networks:
+      - my-network
+
+networks:
+  my-network:
+
 volumes:
   pgdata:
-
-  # api:
-  #   build: .
-  #   container_name: minha-api
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     DATABASE_URL: postgres://usuario:senha@postgres:5432/nome-do-banco

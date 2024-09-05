@@ -3,6 +3,7 @@ import Equipments from "../pages/Equipments";
 import SoundPlans from "../pages/SoundPlans";
 import CreateBudget from "../pages/create-budget";
 import MainScreen from "../pages/main-screen";
+import Budgets from "../pages/AllBudgets";
 export type Module =
   | 'budget-request'
   | 'main-screen'
@@ -54,7 +55,10 @@ export const ROUTES = {
     path: '/equipments',
     name: 'Equipamentos',
     element: <Equipments />,
+  },
+  'budgets': {
+    path: '/budgets',
+    name: 'Orçamentos',
+    element: <Budgets/>,
   }
-
-
 } as Routes;

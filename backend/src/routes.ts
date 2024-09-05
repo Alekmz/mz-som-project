@@ -33,7 +33,7 @@ routes.get('/equipments/department/:departmentId', equipmentController.getEquipm
 
 // create budget
 routes.post('/create-budget', createBudgetController.store);
-// routes.get('/create-budget', createBudgetController.index);
+routes.get('/budgets', createBudgetController.index);
 // routes.get('/create-budget/;id', createBudgetController.show);
 
 // sound plans

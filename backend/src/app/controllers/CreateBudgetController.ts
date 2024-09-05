@@ -1,8 +1,16 @@
-import { createBudgetRepository } from '../../repositories/CreateBudgetRepository';
+import { createBudgetRepository } from '../../repositories/CreateBudgetRepository'
 import { Request, Response } from 'express'
 
 class CreateBudgetController {
-    
+    async index (_: Request, response: Response) {
+        try {
+          const budgets = await createBudgetRepository.findAll()
+          if (budgets.length === 0) return 'Sem dados!'
+          return response.status(200).json(budgets)
+        } catch (e) {
+          console.log(e)
+        }
+      }
     async store(request: Request, response: Response) {
         const {
             responsavel,
