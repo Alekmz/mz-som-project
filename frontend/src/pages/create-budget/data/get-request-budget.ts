@@ -20,7 +20,7 @@ export const useGetRequestBudget = (idBudget: number) => {
     queryKey: ["getRequestBudget"],
     queryFn: () =>
       axios
-        .get(`http://app.mzsom.com.br/api/budget-request/${idBudget}`)
+        .get(`http:s//app.mzsom.com.br/api/budget-request/${idBudget}`)
         .then((res) => res.data as Budget),
   });
   return {

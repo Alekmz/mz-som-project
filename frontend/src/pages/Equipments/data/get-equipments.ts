@@ -13,7 +13,7 @@ export const useGetEquipments = () => {
     queryKey: ["todos"],
     queryFn: () =>
       axios
-        .get(`http://app.mzsom.com.br/api/equipment`)
+        .get(`http:s//app.mzsom.com.br/api/equipment`)
         .then((res) => res.data as Equipment[]),
   });
   return {
