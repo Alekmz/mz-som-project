@@ -31,9 +31,10 @@ import MultipleSelector, { Option } from "../../../components/ui/multi-select";
 import { useToast } from "../../../components/ui/use-toast";
 
 
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useGetSoundPlans } from "../../SoundPlans/data/get-sound-plans";
 import { postCreateBudget } from "../data/post-create";
+import { useGetRequestBudget } from "../data/get-request-budget";
 
 const CreateBudget = ({ setDataForBudget }: any) => {
   const { mutateAsync } = postCreateBudget();
@@ -41,12 +42,15 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   const { data : soundplans } = useGetSoundPlans();
   const { pathname } = useLocation();
   const [selectedSoundplans, setSelectedSoundplans] = useState<string | null>(null);
+  const { id } = useParams();
+  const form = useForm();
+  const numericId = Number(id?.replace(":",""));
 
-  // const { data } = useGetRequestBudget(Number(pathname.split(":")[1]));
+
+  const { data } = useGetRequestBudget(numericId);
   const { toast } = useToast();
 
-  const form = useForm();
-
+  
   // useEffect(() => {
   //   const selectedSoundplans = soundplans?.find(
   //     (soundplans: any) => soundplans.id === selectedIdSoundplans
@@ -54,22 +58,24 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   //   setSelectedSoundplans(selectedSoundplans?.name || null);
   // }, [selectedIdSoundplans, soundplans]);
 
-  // useEffect(() => {
-  //   form.reset({
-  //     data_evento: data?.data_evento,
-  //     email: data?.email,
-  //     telefone: data?.telefone,
-  //     responsavel: data?.responsavel,
-  //     cpf_cnpj: data?.cpf_cnpj,
-  //     local_evento: data?.local_evento,
-  //     tipo_evento: data?.tipo_evento,
-  //     servicos: data?.servicos.map((servico: any) => ({
-  //       label: servico,
-  //       value: servico,
-  //     })),
-  //     descricao: data?.descricao,
-  //   });
-  // }, [data]);
+  useEffect(() => {
+    form.reset({
+      dataEvento: data?.data_evento,
+      email: data?.email,
+      telefone: data?.telefone,
+      responsavel: data?.responsavel,
+      cpfCnpj: data?.cpf_cnpj,
+      localEvento: data?.local_evento,
+      tipoEvento: data?.tipo_evento,
+      servicos: data?.servicos.map((servico: any) => ({
+        label: servico,
+        value: servico,
+      })),
+      descricao: data?.descricao,
+    });
+  }, [data]);
+
+  console.log(data);
 
   const onSubmit = (data: any) => {
     if (!data?.dataEvento) {
@@ -419,15 +425,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       value={field.value}
-                      // value={field.value ? field.value.toString() : ""} // O valor deve ser uma string
-                      // onValueChange={(value) => {
-                      //   const id = Number(value);
-                      //   field.onChange(id); // Atualiza o valor do campo do formulário
-                      //   const selectedSoundplans = soundplans?.find(
-                      //     (Soundplans) => Soundplans.id === id
-                      //   );
-                      //   setSelectedSoundplans(selectedSoundplans?.name || null);
-                      // }}
+                    
                     >
                       <FormControl>
                         <SelectTrigger className="w-full max-w-[500px]">
@@ -481,7 +479,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Observações
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field} disabled={pathname.length > 14} />
+                      <Textarea required {...field}  />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

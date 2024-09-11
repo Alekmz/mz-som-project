@@ -4,7 +4,7 @@ import axios from "axios";
 interface Budget {
   id: number;
   responsavel: string;
-  cpf_cnpj: null;
+  cpf_cnpj: string;
   local_evento: string;
   servicos: string[];
   data_evento: string;
@@ -16,15 +16,18 @@ interface Budget {
 }
 
 export const useGetRequestBudget = (idBudget: number) => {
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ["getRequestBudget"],
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["getRequestBudget", idBudget], // Inclui o idBudget na queryKey
     queryFn: () =>
       axios
-        .get(`http:s//app.mzsom.com.br/api/budget-request/${idBudget}`)
+        .get(`https://app.mzsom.com.br/api/budget-request/${idBudget}`)
         .then((res) => res.data as Budget),
+    enabled: !!idBudget, // O "enabled" deve estar dentro do objeto de configuração
   });
+
   return {
-    isPending,
+    isLoading,  // Substitui isPending por isLoading
     isError,
     data,
     error,

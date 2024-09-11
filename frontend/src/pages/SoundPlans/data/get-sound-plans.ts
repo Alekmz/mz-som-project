@@ -14,7 +14,7 @@ export const useGetSoundPlans = () => {
     queryKey: ["soundPlans"],
     queryFn: () =>
       axios
-        .get(`http:s//app.mzsom.com.br/api/sound-plans`)
+        .get(`https://app.mzsom.com.br/api/sound-plans`)
         .then((res) => res.data as SoundPlans[]),
   });
 

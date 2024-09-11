@@ -16,7 +16,11 @@ interface CreateBudget {
 
 class CreateBudgetRepository {
     async findAll () {
-        const budgets = await prisma.budget.findMany();
+        const budgets = await prisma.budget.findMany({
+            orderBy: {
+                id: 'desc',
+            }
+        });
         return budgets;
     }
 

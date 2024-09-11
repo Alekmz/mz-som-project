@@ -34,7 +34,7 @@ routes.get('/equipments/department/:departmentId', equipmentController.getEquipm
 // create budget
 routes.post('/create-budget', createBudgetController.store);
 routes.get('/budgets', createBudgetController.index);
-// routes.get('/create-budget/;id', createBudgetController.show);
+// routes.get('/create-budget/:id', createBudgetController.show);
 
 // sound plans
 routes.get('/sound-plans', soundPlanController.index);

@@ -14,13 +14,21 @@ interface Budget {
 }
 
 export const getAll = async () => {
-  const clientes = await prisma.budget_request.findMany({});
+  const clientes = await prisma.budget_request.findMany({
+    orderBy: {
+      id: 'desc',
+    }
+  });
   return clientes;
 };
 
 class BugdetRepository {
   async findAll () {
-    const budgets = await prisma.budget_request.findMany();
+    const budgets = await prisma.budget_request.findMany({
+      orderBy: {
+        id: 'desc',
+      }
+    });
     return budgets;
   }
 
