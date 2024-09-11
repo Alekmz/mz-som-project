@@ -23,7 +23,7 @@ interface Budget {
       queryKey: ["todos"],
       queryFn: () =>
         axios
-          .get("http://app.mzsom.com.br/api/budgets")
+          .get("http://localhost:3000/budgets")
           .then((res) => res.data as Budget[]), // Certifique-se de que res.data é um array de Budgets
     });
 
