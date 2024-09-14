@@ -16,7 +16,6 @@ interface Budget {
 }
 
 export const useGetRequestBudget = (idBudget: number) => {
-
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["getRequestBudget", idBudget], // Inclui o idBudget na queryKey
     queryFn: () =>

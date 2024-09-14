@@ -39,18 +39,17 @@ import { useGetRequestBudget } from "../data/get-request-budget";
 const CreateBudget = ({ setDataForBudget }: any) => {
   const { mutateAsync } = postCreateBudget();
   const [openDialog, setOpenDialog] = useState<boolean>(false);
-  const { data : soundplans } = useGetSoundPlans();
+  const { data: soundplans } = useGetSoundPlans();
   const { pathname } = useLocation();
-  const [selectedSoundplans, setSelectedSoundplans] = useState<string | null>(null);
   const { id } = useParams();
   const form = useForm();
-  const numericId = Number(id?.replace(":",""));
+  const numericId = Number(id?.replace(":", ""));
 
 
   const { data } = useGetRequestBudget(numericId);
   const { toast } = useToast();
 
-  
+
   // useEffect(() => {
   //   const selectedSoundplans = soundplans?.find(
   //     (soundplans: any) => soundplans.id === selectedIdSoundplans
@@ -75,7 +74,6 @@ const CreateBudget = ({ setDataForBudget }: any) => {
     });
   }, [data]);
 
-  console.log(data);
 
   const onSubmit = (data: any) => {
     if (!data?.dataEvento) {
@@ -95,10 +93,13 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             : data.tipoEvento,
         ...payload,
       };
-      console.log(formattedData);
       mutateAsync(formattedData)
         .then(() => {
-          setOpenDialog(true);
+          toast({
+            title: "Operação",
+            description: "Orçamento criado com sucesso!",
+            variant: "success",
+          });
         })
         .catch((error) => {
           toast({
@@ -142,7 +143,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-5 justify-center items-center md:justify-star md:items-start"
+            className="flex flex-col gap-5 justify-center items-center md:justify-star lg:items-start md:w-2/4 w-50"
           >
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
@@ -416,6 +417,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               <FormField
                 control={form.control}
                 name="planoSom"
+                rules={{ required: "O campo Plano de Som é obrigatório" }}
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
@@ -425,12 +427,11 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       value={field.value}
-                    
                     >
                       <FormControl>
                         <SelectTrigger className="w-full max-w-[500px]">
                           <span>
-                            {selectedSoundplans || "Selecione um plano de som"}
+                            {field.value || "Selecione um plano de som"}
                           </span>
                         </SelectTrigger>
                       </FormControl>
@@ -448,9 +449,6 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               />
             </div>
             <div>
-              <div>
-                {selectedSoundplans}
-              </div>
             </div>
             <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
               <FormField
@@ -479,7 +477,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       Observações
                     </FormLabel>
                     <FormControl>
-                      <Textarea required {...field}  />
+                      <Textarea {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -2,7 +2,20 @@ import { useRef } from "react";
 import Logo from "../../../assets/logo_mz.png";
 import { useReactToPrint } from 'react-to-print';
 
-const EventDataGrid = ({ data }) => {
+interface EventData {
+  servicos: string[];
+  data_evento: string;
+  email: string;
+  telefone: string;
+  responsavel: string;
+  cpf_cnpj: string;
+  local_evento: string;
+  tipo_evento: string;
+  descricao: string;
+  value_to_be_charged: number;
+}
+
+const EventDataGrid = ({ data }: { data: EventData }) => {
   const {
     servicos,
     data_evento,
@@ -46,7 +59,7 @@ const EventDataGrid = ({ data }) => {
 
 
 const ExportBudget = ({ dataForBudget }: any) => {
-  const componentRef = useRef();
+  const componentRef = useRef<HTMLDivElement | null>(null);
 
 
   const handlePrint = useReactToPrint({
