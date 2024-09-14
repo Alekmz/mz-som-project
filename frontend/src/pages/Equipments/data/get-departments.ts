@@ -11,7 +11,7 @@ export const useGetDepartments = () => {
     queryKey: ["departments"],
     queryFn: () =>
       axios
-        .get("http://localhost:3000/department")
+        .get("https://app.mzsom.com.br/api/department")
         .then((res) => res.data as Department[]),
   });
   return {
