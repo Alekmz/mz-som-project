@@ -20,7 +20,7 @@ export const useGetRequestBudget = (idBudget: number) => {
     queryKey: ["getRequestBudget", idBudget], // Inclui o idBudget na queryKey
     queryFn: () =>
       axios
-        .get(`https://app.mzsom.com.br/api/budget-request/${idBudget}`)
+        .get(`http://localhost:3000/budget-request/${idBudget}`)
         .then((res) => res.data as Budget),
     enabled: !!idBudget, // O "enabled" deve estar dentro do objeto de configuração
   });

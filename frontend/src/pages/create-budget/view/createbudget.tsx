@@ -58,21 +58,25 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   // }, [selectedIdSoundplans, soundplans]);
 
   useEffect(() => {
-    form.reset({
-      dataEvento: data?.data_evento,
-      email: data?.email,
-      telefone: data?.telefone,
-      responsavel: data?.responsavel,
-      cpfCnpj: data?.cpf_cnpj,
-      localEvento: data?.local_evento,
-      tipoEvento: data?.tipo_evento,
-      servicos: data?.servicos.map((servico: any) => ({
-        label: servico,
-        value: servico,
-      })),
-      descricao: data?.descricao,
-    });
-  }, [data]);
+    if (data) {
+      form.reset({
+        dataEvento: data?.data_evento || null,
+        email: data?.email || '',
+        telefone: data?.telefone || '',
+        responsavel: data?.responsavel || '',
+        cpfCnpj: data?.cpf_cnpj || '',
+        localEvento: data?.local_evento || '',
+        tipoEvento: data?.tipo_evento || '',
+        servicos: data?.servicos
+          ? data.servicos.map((servico: any) => ({
+            label: servico,
+            value: servico,
+          }))
+          : [],
+        descricao: data?.descricao || '',
+      });
+    }
+  }, [data, form]);
 
 
   const onSubmit = (data: any) => {
@@ -296,7 +300,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                       >
                         <Calendar
                           mode="single"
-                          selected={field.value}
+                          selected={field.value || ''}
                           onSelect={field.onChange}
                           required
                           disabled={pathname.length > 14}
@@ -319,7 +323,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     </FormLabel>
                     <FormControl>
                       <MultipleSelector
-                        value={field.value}
+                        value={field.value || ''}
                         onChange={field.onChange}
                         selectFirstItem={false}
                         defaultOptions={OPTIONS}
@@ -346,8 +350,8 @@ const CreateBudget = ({ setDataForBudget }: any) => {
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      value={field.value}
+                      defaultValue={field.value || ''}
+                      value={field.value || ''}
                     >
                       <FormControl>
                         <SelectTrigger className="w-full max-w-[500px]">
