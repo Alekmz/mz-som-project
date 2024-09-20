@@ -4,7 +4,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@db:5432/postgres?schema=public"
+  url      = "postgresql://postgres:1234@localhost:5432/postgres?schema=public"
+  // "postgresql://postgres:1234@localhost:5432/postgres?schema=public"
 }
 
 model budget_request {
@@ -19,6 +20,9 @@ model budget_request {
   email         String?
   descricao     String
   data_cadastro DateTime @default(now())
+  budget_created Boolean @default(false)
+
+  Budget Budget[]
 }
 
 model SoundPlans {
@@ -49,6 +53,8 @@ model Budget {
   soundPlans    SoundPlans? @relation(fields: [soundPlanId], references: [id])
   observacoes   String
   data_cadastro DateTime    @default(now())
+  solicitacaoId   Int?       // Campo para associar à solicitação
+  budget_request   budget_request? @relation(fields: [solicitacaoId], references: [id]) // Relacionamento com solicitação
 
   @@map("budget")
 }

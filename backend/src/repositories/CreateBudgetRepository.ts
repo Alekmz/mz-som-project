@@ -11,6 +11,7 @@ interface CreateBudget {
     email?: string
     descricao: string
     soundPlanId: number
+    solicitacaoId: number
     observacoes: string
 }
 
@@ -19,7 +20,7 @@ class CreateBudgetRepository {
         const budgets = await prisma.budget.findMany({
             orderBy: {
                 id: 'desc',
-            }
+            },
         });
         return budgets;
     }
@@ -38,8 +39,19 @@ class CreateBudgetRepository {
                 descricao: data.descricao,
                 observacoes: data.observacoes, // Incluindo campo 'observacoes'
                 soundPlanId: data.soundPlanId || undefined,
+                solicitacaoId: data.solicitacaoId
             }
         });
+
+        await prisma.budget_request.update({
+            where: {
+                id: data.solicitacaoId, // Usando o solicitacaoId passado
+            },
+            data: {
+                budget_created: true, // Atualizando o campo orcamentoCriado para true
+            },
+        });
+
         return createBudget;
     }
 }

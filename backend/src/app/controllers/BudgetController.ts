@@ -35,7 +35,8 @@ class BudgetController {
       servicos,
       telefone,
       email,
-      descricao
+      descricao,
+      budget_created
     } = request.body
     try {
       await budgetRepository
@@ -49,7 +50,8 @@ class BudgetController {
           tipo_evento,
           servicos,
           telefone,
-          descricao
+          descricao, 
+          budget_created
         })
         .then(() => {
           response

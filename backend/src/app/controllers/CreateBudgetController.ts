@@ -24,7 +24,8 @@ class CreateBudgetController {
             email,
             descricao,
             soundPlanId,
-            observacoes
+            observacoes,
+            solicitacaoId
         } = request.body
         try {
             await createBudgetRepository.create({
@@ -39,7 +40,8 @@ class CreateBudgetController {
                 email,
                 descricao,
                 soundPlanId,
-                observacoes
+                observacoes,
+                solicitacaoId
             })
                 .then(() => {
                     response

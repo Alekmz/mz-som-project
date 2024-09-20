@@ -74,6 +74,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
           }))
           : [],
         descricao: data?.descricao || '',
+        solicitacaoId: numericId,
       });
     }
   }, [data, form]);

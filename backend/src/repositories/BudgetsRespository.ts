@@ -11,12 +11,16 @@ interface Budget {
   tipo_evento?: string
   email?: string
   descricao: string
+  budget_created: boolean
 }
 
 export const getAll = async () => {
   const clientes = await prisma.budget_request.findMany({
     orderBy: {
       id: 'desc',
+    },
+    where: {
+      budget_created: false
     }
   });
   return clientes;
@@ -27,6 +31,9 @@ class BugdetRepository {
     const budgets = await prisma.budget_request.findMany({
       orderBy: {
         id: 'desc',
+      }, 
+      where: {
+        budget_created: false
       }
     });
     return budgets;
@@ -43,7 +50,8 @@ class BugdetRepository {
         servicos: data.servicos,
         telefone: data.telefone,
         email: data.email,
-        descricao: data.descricao
+        descricao: data.descricao,
+        budget_created: data.budget_created
       }
     });
     return budget;
