@@ -31,14 +31,15 @@ import MultipleSelector, { Option } from "../../../components/ui/multi-select";
 import { useToast } from "../../../components/ui/use-toast";
 
 
+
 import { useLocation, useParams } from "react-router-dom";
 import { useGetSoundPlans } from "../../SoundPlans/data/get-sound-plans";
 import { postCreateBudget } from "../data/post-create";
 import { useGetRequestBudget } from "../data/get-request-budget";
 
+
 const CreateBudget = ({ setDataForBudget }: any) => {
   const { mutateAsync } = postCreateBudget();
-  const [openDialog, setOpenDialog] = useState<boolean>(false);
   const { data: soundplans } = useGetSoundPlans();
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -105,6 +106,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
             description: "Orçamento criado com sucesso!",
             variant: "success",
           });
+          setDataForBudget(formattedData);
         })
         .catch((error) => {
           toast({

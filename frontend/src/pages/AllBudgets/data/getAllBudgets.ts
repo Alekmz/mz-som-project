@@ -13,7 +13,7 @@ interface Budget {
     email: string | null;
     descricao: string;
     data_cadastro: string;
-    soundPlans: number;
+    soundPlanId: number;
     observacoes: string;
 
   }

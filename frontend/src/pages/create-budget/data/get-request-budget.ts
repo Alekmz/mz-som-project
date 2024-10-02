@@ -13,7 +13,6 @@ interface Budget {
   email: string | null;
   descricao: string;
   data_cadastro: string;
-
 }
 
 export const useGetRequestBudget = (idBudget: number) => {

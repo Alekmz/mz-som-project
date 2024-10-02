@@ -38,6 +38,7 @@ routes.get('/budgets', createBudgetController.index);
 
 // sound plans
 routes.get('/sound-plans', soundPlanController.index);
+routes.get('/sound-plans/:id', soundPlanController.show);
 
 
 
