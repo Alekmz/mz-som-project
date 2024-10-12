@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:1234@localhost:5432/postgres?schema=public"
+  url      = "postgresql://postgres:admin@localhost:5432/mz?schema=public"
   // "postgresql://postgres:1234@localhost:5432/postgres?schema=public"
 }
 
@@ -25,15 +25,29 @@ model budget_request {
   Budget Budget[]
 }
 
+model EquipmentsPlan {
+  id            Int          @id @default(autoincrement())
+  amount    Int          // Armazena a quantidade de cada equipamento no plano
+  sound_plan_id    Int          // Foreign Key para PlanoSom
+  equipment_id Int          // Foreign Key para Equipamento
+
+  soundPlan      SoundPlans   @relation(fields: [sound_plan_id], references: [id]) // Relacionamento com PlanoSom
+  equipments    Equipment     @relation(fields: [equipment_id], references: [id]) // Relacionamento com Equipamento
+
+  @@unique([sound_plan_id, equipment_id]) // Garante que um equipamento só possa ser associado uma vez por plano
+  @@map("equipments_plan")
+
+}
+
+
 model SoundPlans {
   id            Int         @id @default(autoincrement())
   name          String
-  caminhao      String
-  departamentId Int?
-  department    Department? @relation(fields: [departamentId], references: [id])
   valor_plano   Decimal     @db.Decimal(10, 2)
 
   Budget Budget[]
+  equipmentsPlan EquipmentsPlan[]  // Relação com a tabela intermediária
+
 
   @@map("sound_plans")
 }
@@ -63,7 +77,6 @@ model Department {
   id         Int          @id @default(autoincrement())
   name       String
   equipments Equipment[]
-  soundPlans SoundPlans[]
 
   @@map("departments")
 }
@@ -74,6 +87,7 @@ model Equipment {
   department   Department @relation(fields: [departmentId], references: [id])
   departmentId Int
   amount       Int
+  equipmentsPlan EquipmentsPlan[]  // Relação com a tabela intermediária
 
   @@map("equipments")
 }

@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "../../components/ui/input";
 import { useCreateDepartment } from "./data/create-department";
 import { Department } from "./data/get-departments";
+import { toast } from "../../components/ui/use-toast";
 
 interface Props {
   setIsCreateDepartment: (value: boolean) => void
@@ -30,8 +31,12 @@ const CreateDepartments = ({setIsCreateDepartment, departments, refetch}:Props) 
 
 
     await createDepartment(data)
-    setIsCreateDepartment(false)
     refetch();
+    toast({
+      title: 'Departamento criado',
+      description: 'Seu departamento foi criado com sucesso',
+    })
+    setIsCreateDepartment(false)
   }
 
   return (

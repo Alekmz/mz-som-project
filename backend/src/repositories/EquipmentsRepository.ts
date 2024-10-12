@@ -22,17 +22,28 @@ class EquipmentRepository {
     });
   }
 
-  async findAll () {
-    const equipments = await prisma.equipment.findMany({
-      include: {
-        department: {
-          select: {
-            name: true
+  async findAll() {
+    try {
+      const equipments = await prisma.equipment.findMany({
+        include: {
+          department: {
+            select: {
+              name: true
+            }
           }
         }
+      });
+
+      // Verifica se o resultado está vazio
+      if (equipments.length === 0) {
+        return []; // Retorna um array vazio caso não haja registros
       }
-    });
-    return equipments;
+
+      return equipments;
+    } catch (error) {
+      console.error("Erro ao buscar equipamentos:", error);
+      throw new Error('Erro ao buscar equipamentos');
+    }
   }
 
   async create (data: Department) {

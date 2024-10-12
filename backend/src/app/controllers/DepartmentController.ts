@@ -8,7 +8,9 @@ class DepartmentController {
   async index (_: Request, response: Response) {
     try {
       const departments = await departmentRepository.findAll()
-      if (departments.length === 0) return 'Sem dados!'
+      if (departments.length === 0) {
+        return response.status(200).send([]); // Status 204: Sem conteúdo
+      }
       return response.status(200).json(departments)
     } catch (e) {
       console.log(e)

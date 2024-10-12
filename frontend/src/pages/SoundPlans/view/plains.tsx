@@ -8,11 +8,17 @@ import {
   TableRow,
 } from "../../../components/ui/table";
 import { Button } from "../../../components/ui/button";
+import { useGetSoundPlans } from "../data/get-sound-plans";
+import { useGetSoundPlansEquipments } from "../data/get-sound-plans-equipments";
+import { formatCurrency } from "../../../utils/formatCurrency";
 
 interface Props {
   setHiddenPlains: (x: boolean) => void;
 }
 const Plains = ({ setHiddenPlains }: Props) => {
+  const { data } = useGetSoundPlans();
+
+  console.log(data)
   return (
     <div className="w-full flex justify-center items-center flex-col h-full">
       <div className="flex flex-col w-full justify-center items-center gap-5 h-full mt-28 overflow-x-clip ">
@@ -31,16 +37,16 @@ const Plains = ({ setHiddenPlains }: Props) => {
             <TableHeader>
               <TableRow>
                 <TableHead>Plano</TableHead>
-                <TableHead>Quantidade de equipamentos</TableHead>
+                <TableHead>Valor do Plano</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">
-                  Plano som de casamento
-                </TableCell>
-                <TableCell>10</TableCell>
-              </TableRow>
+              {data?.map((plan) => (
+                <TableRow key={plan.id}>
+                  <TableCell>{plan.name}</TableCell>
+                  <TableCell>{formatCurrency(plan.valor_plano)}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>

@@ -7,11 +7,23 @@ import { Request, Response } from 'express'
 class EquipmentController {
   async index (_: Request, response: Response) {
     try {
-      const equipments = await equipmentRepository.findAll()
-      if (equipments.length === 0) return 'Sem dados!'
-      return response.status(200).json(equipments)
-    } catch (e) {
-      console.log(e)
+      const equipments = await equipmentRepository.findAll();
+
+      // Se não houver dados, retorna um status 204 (sem conteúdo) ou 404 se preferir.
+      if (equipments.length === 0) {
+        return response.status(200).send([]); // Status 204: Sem conteúdo
+      }
+
+      // Caso haja dados, retorna com status 200 e os dados
+      return response.status(200).json(equipments);
+    } catch (error) {
+      console.error("Erro ao buscar equipamentos:", error);
+
+      // Retorna uma resposta de erro com status 500 e a mensagem de erro
+      return response.status(500).json({
+        message: 'Erro ao buscar equipamentos',
+        error: error
+      });
     }
   }
 

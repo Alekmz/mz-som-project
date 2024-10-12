@@ -38,7 +38,9 @@ routes.get('/budgets', createBudgetController.index);
 
 // sound plans
 routes.get('/sound-plans', soundPlanController.index);
+routes.post('/sound-plans', soundPlanController.store);
 routes.get('/sound-plans/:id', soundPlanController.show);
+routes.delete('/sound-plans/:id', soundPlanController.delete);
 
 
 

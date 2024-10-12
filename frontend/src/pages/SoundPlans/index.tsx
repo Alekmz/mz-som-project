@@ -14,7 +14,7 @@ const SoundPlans = ()=> {
       <Header />
       <Sidebar />
       {
-        !hiddenPlains ? <Plains setHiddenPlains={setHiddenPlains}/> : <CreateSoundPlan />
+        !hiddenPlains ? <Plains setHiddenPlains={setHiddenPlains}/> : <CreateSoundPlan setHiddenPlains={setHiddenPlains} />
       }
       <Footer />
     </>
