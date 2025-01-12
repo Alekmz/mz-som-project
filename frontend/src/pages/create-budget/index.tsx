@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Header from "../../components/header/Header";
 import Sidebar from "../../components/menu/Sidebar";
 import Footer from "../../components/footer/footer";
 
 import CreateBudget from "./view/createbudget";
 import ExportBudget from "./view/budget";
+import { DataBudgetContext } from "../../context/DataBudgetContext";
 
 const EventDataGrid = ({ data }: { data: any }) => {
   const { servicos, data_evento, email, telefone, responsavel, cpf_cnpj, local_evento, tipo_evento, descricao, value_to_be_charged } = data;
@@ -36,14 +37,15 @@ const EventDataGrid = ({ data }: { data: any }) => {
 
 const BudgetRequest = () => {
   const [dataForBudget, setDataForBudget] = useState<any>(undefined);
-
+  const dataForBudgetContext = useContext(DataBudgetContext);
+  console.log(dataForBudgetContext);
   return (
     <div className="w-full flex flex-col h-full">
-      {dataForBudget === undefined ? (
+      {dataForBudget === undefined && !dataForBudgetContext?.dataForBudget ? (
         <>
           <Header />
           <Sidebar />
-          <CreateBudget setDataForBudget={setDataForBudget} />
+          <CreateBudget setDataForBudget={dataForBudgetContext?.setDataForBudget} />
           <Footer />
         </>
       ) : (

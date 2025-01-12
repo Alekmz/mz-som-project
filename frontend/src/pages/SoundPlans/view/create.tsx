@@ -1,70 +1,113 @@
-import { useForm } from "react-hook-form";
+
+
+import { useFieldArray, useForm, Controller } from "react-hook-form";
 import { Button } from "../../../components/ui/button";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  Form,
-} from "../../../components/ui/form";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import MultipleSelector from "../../../components/ui/multi-select";
-import { useToast } from "../../../components/ui/use-toast";
+import { CustomSelect } from "../../../components/custom-select";
+
 import { useGetDepartments } from "../../Equipments/data/get-departments";
-import { toSnakeCase } from "../../../utils/formatToSnakeCase";
 import { useGetEquipments } from "../../Equipments/data/get-equipments";
-import { useState } from "react";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-} from "../../../components/ui/table";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../../../components/ui/accordion";
-const CreateSoundPlan = ({ setDataForBudget, setHiddenPlains }: any) => {
-  const { toast } = useToast();
-  const { data: departments } = useGetDepartments();
-  const [value, setValue] = useState<any>();
-  const { data: equipments } = useGetEquipments();
-  const form = useForm();
+import { useMemo } from "react";
+import { useCreateSoundPlan } from "../data/create-sound-plan";
+import { toast } from "../../../components/ui/use-toast";
 
-  const formatCurrency = (value) => {
-    // Remove tudo que não é dígito
-    const numericValue = value.replace(/\D/g, "");
+const CreateSoundPlan = ({ setHiddenPlains }: any) => {
+  const { data: departmentsData } = useGetDepartments();
+  const { data: equipmentsData } = useGetEquipments();
+  const {
+    mutateAsync: createSoundPlan,
+    isPending
+  } = useCreateSoundPlan();
 
-    // Formata o valor para moeda BRL
-    const formattedValue = new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    }).format(numericValue / 100); // Divide por 100 para lidar com centavos
-
-    return formattedValue;
-  };
-  const handleChange = (e: any) => {
-    const inputValue = e.target.value;
-    const formatted = formatCurrency(inputValue);
-    setValue(formatted);
+  type EquipmentLine = {
+    department: string;
+    equipment: string;
+    quantity: number;
   };
 
-  const parseCurrencyToNumber = (value) => {
-    const cleanValue = value.replace(/[^\d,-]/g, ""); // Remove R$ e espaços
-    const numericValue = cleanValue.replace(",", "."); // Troca vírgula por ponto para formato numérico
-    return parseFloat(numericValue);
+  type FormData = {
+    name: string;
+    plan_value: number;
+    equipmentLines: EquipmentLine[];
   };
 
-  const onSubmit = (data: any) => {
-    data.amount = parseCurrencyToNumber(value);
+  const departments = departmentsData?.map((dept) => dept.name) || [];
+  const equipmentOptions: { [key: string]: string[] } =
+    equipmentsData?.reduce((acc, equipment) => {
+      const departmentName = equipment.department.name;
+      if (!acc[departmentName]) {
+        acc[departmentName] = [];
+      }
+      acc[departmentName].push(equipment.name);
+      return acc;
+    }, {} as { [key: string]: string[] }) || {};
+
+  const defaultQuantities =
+    equipmentsData?.reduce((acc, equipment) => {
+      const departmentName = equipment.department.name;
+      if (!acc[departmentName]) {
+        acc[departmentName] = {};
+      }
+
+      console.log("acc[departmentName]", acc[departmentName]);
+      console.log("departmentName", departmentName);
+      console.log("equipment", equipment);
+
+      Object.assign(acc[departmentName], {
+        [equipment.name]: equipment.amount,
+      });
+      console.log("acc", acc);
+      return acc;
+    }, {} as { [key: string]: { [key: string]: number } }) ||
+    {} as { [key: string]: { [key: string]: number } };
+
+  console.log("defaultQuantities", defaultQuantities);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<FormData>({
+    defaultValues: {
+      name: "",
+      plan_value: 0,
+      equipmentLines: [{ department: "", equipment: "", quantity: 1 }],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "equipmentLines",
+  });
+  const watchEquipmentLines = watch("equipmentLines")
+
+  const selectedEquipment = useMemo(() => {
+    const selected = new Set<string>()
+    watchEquipmentLines.forEach(line => {
+      if (line.equipment) {
+        selected.add(line.equipment)
+      }
+    })
+    return selected
+  }, [watchEquipmentLines])
+
+  const onSubmit =  (data: FormData) => {
     console.log(data);
+    const dataPayload = {
+      name: data.name,
+      valor_plano: data.plan_value,
+      equipments: data.equipmentLines.map((line) => ({
+        amount: line.quantity,
+        equipment_id: equipmentsData ? equipmentsData?.find((equip) => equip.name === line.equipment)?.id || "" : "",
+    }))
+    } ;
+    createSoundPlan(dataPayload).then((() => toast({ title: "Plano de som criado com sucesso!", description: "O plano de som foi criado com sucesso." })));
   };
+
+
   return (
     <>
       <div className="w-full flex justify-center items-center flex-col h-full">
@@ -72,7 +115,7 @@ const CreateSoundPlan = ({ setDataForBudget, setHiddenPlains }: any) => {
           <div className="flex w-full px-10 justify-start  pl-[250px]">
             <Button
               variant={"outline"}
-              onClick={() => setHiddenPlains(true)}
+              onClick={() => setHiddenPlains(false)}
               className="text-xl font-normal border border-[#2190BF] text-[#2190BF]"
             >
               Voltar
@@ -83,97 +126,178 @@ const CreateSoundPlan = ({ setDataForBudget, setHiddenPlains }: any) => {
               Criar plano de som
             </h2>
           </div>
-          <Accordion
-            type="single"
-            collapsible
-            className="w-full pl-[250px] px-10"
-          >
-            {departments?.map((department) => {
-              return (
-                <AccordionItem value={String(department.id)} className="w-full z-0">
-                  <AccordionTrigger className="w-full z-0">{department.name}</AccordionTrigger>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <Label htmlFor="soundPlanName">Nome do Plano de Som</Label>
+              <Controller
+                name="name"
+                control={control}
+                rules={{ required: "Nome é obrigatório." }}
+                render={({ field }) => (
+                  <Input
+                    id="soundPlanName"
+                    placeholder="Insira o Nome do Plano de Som"
+                    {...field}
+                  />
+                )}
+              />
+              {errors.name && (
+                <p className="text-sm text-red-600">{errors.name.message}</p>
+              )}
+            </div>
+            <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
+              <Label htmlFor="planValue">Valor do Plano de Som</Label>
+              <Controller
+                name="plan_value"
+                control={control}
+                rules={{ required: "Valor é obrigatório." }}
+                render={({ field }) => (
+                  <Input
+                    id="planValue"
+                    placeholder="Insira o Valor do Plano de Som"
+                    {...field}
+                  />
+                )}
+              />
+              {errors.name && (
+                <p className="text-sm text-red-600">{errors.name.message}</p>
+              )}
+            </div>
+            {fields.map((field, index) => (
+              <div
+                key={field.id}
+                className="flex flex-wrap items-end gap-4 p-4 border rounded-md"
+              >
+                <div className="flex-1 min-w-[200px]">
+                  <Label htmlFor={`equipmentLines.${index}.department`}>
+                    Departamento
+                  </Label>
+                  <Controller
+                    name={`equipmentLines.${index}.department` as const}
+                    control={control}
+                    rules={{ required: "Departmento é obrigatório." }}
+                    render={({ field }) => (
+                      <CustomSelect
+                        options={departments.map((dept) => ({
+                          value: dept,
+                          label: dept,
+                        }))}
+                        placeholder="Selecione o departmento"
+                        {...field}
+                      />
+                    )}
+                  />
+                  {errors.equipmentLines?.[index]?.department && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.equipmentLines[index]?.department?.message}
+                    </p>
+                  )}
+                </div>
 
-                  <AccordionContent>
-                    <div className="flex justify-center h-full z-50">
-                      <Form {...form}>
-                        <form
-                          onSubmit={form.handleSubmit(onSubmit)}
-                          className="flex gap-5 items-center md:justify-start md:items-start z-50"
-                        >
-                          {departments &&
-                            departments.map((department) => (
-                              <div className="flex z-50  items-start justify-start w-full text-start">
-                                <FormField
-                                  control={form.control}
-                                  name={toSnakeCase(department?.name)}
-                                  render={({ field }) => (
-                                    <FormItem className="w-full">
-                                      <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                                        Equipamento
-                                        <span className="text-red-500">*</span>
-                                      </FormLabel>
-                                      <FormControl>
-                                        <MultipleSelector
-                                          value={field.value}
-                                          onChange={field.onChange}
-                                          selectFirstItem={false}
-                                          defaultOptions={
-                                            (equipments
-                                              ?.filter(
-                                                (equipment) =>
-                                                  equipment?.departmentId ===
-                                                  department?.id
-                                              )
-                                              .map((equipment) => ({
-                                                label: equipment?.name,
-                                                value: equipment?.id,
-                                              })) as any) || []
-                                          }
-                                          placeholder="Selecione"
-                                          className="z-[999999999]"
-                                          emptyIndicator={
-                                            <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-                                              Nenhum resultado encontrado.
-                                            </p>
-                                          }
-                                        />
-                                      </FormControl>
-                                    </FormItem>
-                                  )}
-                                />
-                              </div>
-                            ))}
+                <div className="flex-1 min-w-[200px]">
+                  <Label htmlFor={`equipmentLines.${index}.equipment`}>
+                    Equipamento
+                  </Label>
+                  <Controller
+              name={`equipmentLines.${index}.equipment` as const}
+              control={control}
+              rules={{ required: "Equipment is required" }}
+              render={({ field }) => (
+                <CustomSelect
+                  options={
+                    watchEquipmentLines[index]?.department
+                      ? equipmentOptions[watchEquipmentLines[index].department as keyof typeof equipmentOptions]
+                          .filter(equip => !selectedEquipment.has(equip) || equip === field.value)
+                          .map(equip => ({ value: equip, label: equip }))
+                      : []
+                  }
+                  placeholder="Select equipment"
+                  {...field}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    const department = watchEquipmentLines[index].department;
+                    if (department && value) {
+                      const defaultQuantity =
+                              defaultQuantities[
+                                department as keyof typeof defaultQuantities
+                              ][value.target.value]
+                            if (defaultQuantity) {
+                              setValue(
+                                `equipmentLines.${index}.quantity`,
+                                defaultQuantity
+                              );
+                            }
+                    }
+                  }}
+                />
+              )}
+            />
+                  {errors.equipmentLines?.[index]?.equipment && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.equipmentLines[index]?.equipment?.message}
+                    </p>
+                  )}
+                </div>
 
-                          <div className="flex flex-col items-start justify-start w-full max-w-[800px] text-start">
-                            <FormItem className="w-full">
-                              <FormLabel className="text-start text-[#2B3940] font-nunito font-light text-lg">
-                                Quantidade{" "}
-                                <span className="text-red-500">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  type="text" // Alterado para text para aceitar formatação com símbolos
-                                  value={value}
-                                  required
-                                  onChange={handleChange}
-                                />
-                              </FormControl>
+                <div className="w-24">
+                  <Label htmlFor={`equipmentLines.${index}.quantity`}>
+                    Quantidade
+                  </Label>
+                  <Controller
+                    name={`equipmentLines.${index}.quantity` as const}
+                    control={control}
+                    rules={{
+                      required: "Quantidade é obrigatório.",
+                      min: { value: 1, message: "Quantity must be at least 1" },
+                    }}
+                    render={({ field }) => (
+                      <Input
+                        type="number"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                        min={1}
+                      />
+                    )}
+                  />
+                  {errors.equipmentLines?.[index]?.quantity && (
+                    <p className="mt-1 text-sm text-red-600">
+                      {errors.equipmentLines[index]?.quantity?.message}
+                    </p>
+                  )}
+                </div>
 
-                              <FormMessage />
-                            </FormItem>
-                          </div>
-                        </form>
-                      </Form>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              );
-            })}
-          </Accordion>
+                {fields.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    onClick={() => remove(index)}
+                  >
+                    Remover
+                  </Button>
+                )}
+              </div>
+            ))}
+            <div className="flex w-full gap-2 mt-4">
+              <Button
+                type="button"
+                onClick={() =>
+                  append({ department: "", equipment: "", quantity: 1 })
+                }
+                className="mt-4"
+              >
+                Adicionar Equipamento
+              </Button>
+
+              <Button type="submit" className="mt-4">
+                Criar Plano de Som
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </>
   );
 };
-
 export default CreateSoundPlan;

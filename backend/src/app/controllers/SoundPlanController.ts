@@ -15,13 +15,13 @@ class SoundPlanController {
         valor_plano,
       });
 
-      for (const equipment of equipments) {
+      equipments.map(async (equipment: any) => {
         await equipmentsPlanRepository.create({
           amount: equipment.amount,
           sound_plan_id: soundPlan.id,
           equipment_id: equipment.equipment_id,
         });
-      }
+      })
       return response.status(201).json(soundPlan);
     } catch (error) {
       console.error('Erro ao criar o plano de som:', error);

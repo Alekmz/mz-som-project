@@ -27,6 +27,8 @@
     "clsx": "^2.1.0",
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.2",
     "localforage": "^1.10.0",
     "lucide-react": "^0.364.0",

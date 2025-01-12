@@ -6,7 +6,7 @@ import { uploadFile } from './app/controllers/FileController'
 import multer from 'multer';
 import { departmentController } from './app/controllers/DepartmentController';
 import { equipmentController } from './app/controllers/EquipmentController';
-import {createBudgetController } from './app/controllers/CreateBudgetController';
+import { createBudgetController } from './app/controllers/CreateBudgetController';
 import { soundPlanController } from './app/controllers/SoundPlanController';
 
 const routes = Router()
@@ -34,15 +34,11 @@ routes.get('/equipments/department/:departmentId', equipmentController.getEquipm
 // create budget
 routes.post('/create-budget', createBudgetController.store);
 routes.get('/budgets', createBudgetController.index);
-// routes.get('/create-budget/:id', createBudgetController.show);
 
 // sound plans
 routes.get('/sound-plans', soundPlanController.index);
 routes.post('/sound-plans', soundPlanController.store);
 routes.get('/sound-plans/:id', soundPlanController.show);
 routes.delete('/sound-plans/:id', soundPlanController.delete);
-
-
-
 
 export default routes

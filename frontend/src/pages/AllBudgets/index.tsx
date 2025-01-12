@@ -1,17 +1,21 @@
 import Sidebar from "../../components/menu/Sidebar";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Header from "../../components/header/Header";
 import { Link } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 import { format } from "date-fns";
 import { useGetAllBudgets } from "./data/getAllBudgets";
 import ExportBudget from "../create-budget/view/budget";
+import { DataBudgetContext } from "../../context/DataBudgetContext";
 
 const AllBudgets = ({ }: any) => {
   const { data } = useGetAllBudgets();
+  const dataForBudgetContext = useContext(DataBudgetContext);
   const [selectedBudget, setSelectedBudget] = useState(null);
   const handleSelectBudget = (budget: any) => {
+    console.log(budget);
     setSelectedBudget(budget);
+    dataForBudgetContext?.setDataForBudget(budget);
   };
   return (
     <div className="bg-white w-full h-screen flex flex-col">
@@ -119,8 +123,8 @@ const AllBudgets = ({ }: any) => {
                         {/* visível mobile */}
                         <div className="hidden md:flex w-full md:w-10 grow items-center justify-center">
                           <Link
-                            to="#"
-                            onClick={() => handleSelectBudget(data)}
+                            to="/create-budget"
+                            onClick={() => handleSelectBudget(budget)}
                             key={budget.id}
                             className="text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:text-[#2190BF] group"
                           >
@@ -137,8 +141,8 @@ const AllBudgets = ({ }: any) => {
                       </div>
                       <div className="hidden max-md:flex w-10 grow items-center justify-center">
                         <Link
-                          to="#"
-                          onClick={() => handleSelectBudget(data)}
+                          to="/create-budget"
+                          onClick={() => handleSelectBudget(budget)}
                           key={budget.id}
                           className="text-gray-900 rounded-lg dark:text-white hover:text-[#2190BF] dark:hover:text-[#2190BF] group"
                         >

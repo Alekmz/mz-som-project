@@ -6,6 +6,10 @@ export interface Equipment {
   name: string;
   departmentId: number;
   amount: number;
+  department: {
+    id: number;
+    name: string;
+  };
 }
 
 export const useGetEquipments = () => {

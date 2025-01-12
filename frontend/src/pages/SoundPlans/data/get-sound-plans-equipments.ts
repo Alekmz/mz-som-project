@@ -20,8 +20,17 @@ interface SoundPlans {
     name: string;
     caminhao: string;
     departmentId: number;
-    valor_plano: number;
+    valor: number;
     department?: Department; // Inclua o departamento completo aqui
+    equipamentos: {
+        [key:string] :
+            {
+                "name": string,
+                "amount": number,
+                "departmentId": number
+            }[]
+        
+    }
 }
 export const useGetSoundPlansEquipments = (idSoundPlan: number) => {
     const { isLoading, isError, data, error } = useQuery({

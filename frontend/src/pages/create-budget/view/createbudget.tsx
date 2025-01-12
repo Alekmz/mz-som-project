@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
@@ -51,12 +51,6 @@ const CreateBudget = ({ setDataForBudget }: any) => {
   const { toast } = useToast();
 
 
-  // useEffect(() => {
-  //   const selectedSoundplans = soundplans?.find(
-  //     (soundplans: any) => soundplans.id === selectedIdSoundplans
-  //   );
-  //   setSelectedSoundplans(selectedSoundplans?.name || null);
-  // }, [selectedIdSoundplans, soundplans]);
 
   useEffect(() => {
     if (data) {
@@ -80,8 +74,15 @@ const CreateBudget = ({ setDataForBudget }: any) => {
     }
   }, [data, form]);
 
+  useEffect(() => {
+    console.log(form.getValues("planoSom"));
+    console.log(soundplans?.filter(data=> data.name === form.getValues("planoSom")));
+    form.setValue("value_to_be_charged", soundplans?.filter(data=> data.name === form.getValues("planoSom"))[0].valor_plano || 0);
+  }, [form.watch("planoSom")]);
+
 
   const onSubmit = (data: any) => {
+    console.log(data);
     if (!data?.dataEvento) {
       toast({
         title: "Você precisa inserir uma data",
@@ -89,7 +90,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
         variant: "destructive",
       });
     } else {
-      const { plano_som, servicos, tipo_evento, outro_tipo_evento, planoSom, ...payload } = data;
+      const { plano_som, servicos, observacoes, tipo_evento, outro_tipo_evento, planoSom, ...payload } = data;
       const formattedData = {
         soundPlanId: soundplans && soundplans?.find((soundplan) => soundplan.name === planoSom)?.id,
         servicos: servicos.map((servico: { value: any }) => servico.value),
@@ -97,8 +98,10 @@ const CreateBudget = ({ setDataForBudget }: any) => {
           data.tipoEvento === "outro"
             ? data.outro_tipo_evento
             : data.tipoEvento,
+        observacoes: observacoes ? observacoes : '',
         ...payload,
       };
+      console.log(formattedData);
       mutateAsync(formattedData)
         .then(() => {
           toast({
@@ -510,7 +513,7 @@ const CreateBudget = ({ setDataForBudget }: any) => {
               />
             </div>
             <div className="flex w-full justify-center items-center md:justify-start md:items-start">
-              <Button className=" bg-[#2190BF] text-white font-nunito font-semibold text-lg w-full max-w-[450px] ">
+              <Button type="submit" className=" bg-[#2190BF] text-white font-nunito font-semibold text-lg w-full max-w-[450px] ">
                 Criar
               </Button>
             </div>
