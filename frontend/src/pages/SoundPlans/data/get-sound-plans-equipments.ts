@@ -37,7 +37,7 @@ export const useGetSoundPlansEquipments = (idSoundPlan: number) => {
         queryKey: ["IdSoundPlans"],
         queryFn: () =>
             axios
-                .get(`http://localhost:3000/sound-plans/${idSoundPlan}`)
+                .get(`https://app.mzsom.com.br/api/sound-plans/${idSoundPlan}`)
                 .then((res) => res.data as SoundPlans),
                 
     });

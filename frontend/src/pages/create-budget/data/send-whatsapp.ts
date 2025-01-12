@@ -14,7 +14,7 @@ export const sendPdfViaWhatsApp = async (pdfBlob: Blob, phoneNumber: string): Pr
     
   
       try {
-        const response = await axios.post('http://localhost:3000/upload', formData, {
+        const response = await axios.post('https://app.mzsom.com.br/api/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

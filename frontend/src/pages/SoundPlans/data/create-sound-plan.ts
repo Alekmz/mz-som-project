@@ -4,7 +4,7 @@ import axios from "axios"
 export const useCreateSoundPlan = () => {
   const mutation = useMutation({
     mutationFn: (soundPlan:any) => {
-        return axios.post('http://localhost:3000/sound-plans', soundPlan)
+        return axios.post('https://app.mzsom.com.br/api/sound-plans', soundPlan)
     },
   })
 

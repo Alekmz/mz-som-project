@@ -39,7 +39,7 @@ export default SoundPlans;
 //     const formData = new FormData();
 //     formData.append('file', new File([pdfBlob], "documento.pdf", { type: "application/pdf" }));
 
-//     const response = await fetch('http://localhost:3000/upload', {
+//     const response = await fetch('https://app.mzsom.com.br/api/upload', {
 //       method: 'POST',
 //       body: formData,
 //     });
